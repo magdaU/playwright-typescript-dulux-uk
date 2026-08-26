@@ -5,7 +5,9 @@ Playwright and TypeScript, covering UI journeys, API preconditions, CI/CD and au
 
 [![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
 
-See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope, tagging, environments, risk-based prioritisation, and CI/CD details.
+See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope, tagging, environments, risk-based prioritisation, and CI/CD
+details, and [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the concrete scenarios behind the suite — including
+ones identified but deliberately not automated, and why.
 
 ## Tech stack
 

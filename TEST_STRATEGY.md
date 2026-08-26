@@ -1,5 +1,7 @@
 # Test Strategy — Dulux E2E (Playwright + TypeScript)
 
+See [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the concrete, step-by-step scenarios behind this strategy.
+
 ## 1. Objective
 
 Provide automated end-to-end coverage of the customer-facing journeys on

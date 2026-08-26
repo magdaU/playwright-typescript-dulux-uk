@@ -1,0 +1,77 @@
+# Test Scenarios & Cases — Dulux E2E
+
+Concrete scenarios behind the automated suite, plus scenarios that were identified during test design but are
+deliberately not automated (yet, or at all) — and why. See [TEST_STRATEGY.md](TEST_STRATEGY.md) for the
+reasoning behind scope, risk prioritisation, and tagging; this document is the "what exactly gets checked, step
+by step" view.
+
+## How to read this
+
+Each scenario has a stable ID (`TC-<area>-<n>`), the automation status, and a link to the spec file that
+implements it (where one exists). Priority follows the risk-based prioritisation in
+[TEST_STRATEGY §10](TEST_STRATEGY.md#10-risk-based-prioritisation).
+
+## Tester purchase journey
+
+| ID | Scenario | Priority |
+|---|---|---|
+| TC-PURCHASE-01 | Desktop customer finds a colour via the nav dropdown and buys a tester | Highest |
+| TC-PURCHASE-02 | Mobile customer finds the same journey via the hamburger menu | Highest |
+
+**TC-PURCHASE-01 — Desktop: add a tester to the basket via the colour finder**
+Automated: `tests/specs/purchase/tester-product.spec.ts` · `@purchase @regression @smoke @desktop`
+
+- **Preconditions:** cookie consent already accepted (shared `storageState`); basket starts empty.
+- **Steps:**
+  1. Open the basket and confirm it's empty ("Your basket is empty").
+  2. Open the home page.
+  3. Open the "Find a colour" nav dropdown, then "Find a colour".
+  4. Choose the colour family **Violet**.
+  5. Choose the shade **Sugared Lilac**.
+  6. Click "Buy a Tester in this colour".
+  7. Dismiss the resulting alert/notification.
+  8. Open the shopping cart.
+- **Expected result:** basket quantity input is visible and equals `1`; basket lists "Dulux Colour Tester" and
+  "Sugared Lilac".
+- **Evidence:** screenshot saved to `screenshots/tester-product/desktop-<timestamp>.png`.
+
+**TC-PURCHASE-02 — Mobile: add a tester to the basket via the hamburger menu**
+Automated: `tests/specs/purchase/tester-product.spec.ts` · `@mobile`
+
+- Same as TC-PURCHASE-01, except step 3 first opens the hamburger menu (mobile nav is collapsed behind it)
+  before reaching "Find a colour". Runs at Pixel 7 viewport instead of 1920×1080.
+- **Expected result / evidence:** identical assertions and screenshot pattern as TC-PURCHASE-01
+  (`screenshots/tester-product/mobile-<timestamp>.png`).
+
+## API preconditions
+
+| ID | Scenario | Priority |
+|---|---|---|
+| TC-API-01 | Home page responds with a 2xx before the UI journey runs | High (fast-fail gate) |
+| TC-API-02 | Cart page responds with a 2xx before the UI journey runs | High (fast-fail gate) |
+
+Automated: `tests/specs/setup/api-setup.spec.ts` · `@api @regression`, browser-less via Playwright's `request`
+fixture. These exist to fail fast and cheaply if the site itself is down, before spending time on a full browser
+journey that would fail for an uninteresting reason.
+
+## Identified but not automated
+
+Scenarios that came up during test design and are deliberately out, with the reasoning — not gaps discovered by
+accident.
+
+| ID | Scenario | Status | Why |
+|---|---|---|---|
+| TC-VIS-01 | Desktop: opening the Visualizer App from a colour page opens it in a new tab | Not yet automated | `ColorSelectionPage.openVisualizerApp()` already exists as a page-object method; listed as a known future addition in [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements) |
+| TC-VIS-02 | Mobile: Visualizer App gracefully degrades to a support message instead of opening | Not yet automated | Same as above — ported from the original Java/Cucumber suite's coverage, not yet reimplemented here |
+| TC-CHECKOUT-01 | Completing checkout and receiving an order confirmation | Out of scope | Suite runs against **live production** — completing checkout would create a real order/charge (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope)) |
+| TC-VISUAL-01 | Pixel-level visual regression on colour-selection/landing pages | Out of scope | No visual-diff tooling wired in; screenshots are captured as evidence only, not compared (see [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements)) |
+| TC-A11Y-01 | Accessibility (a11y) audit of the purchase journey | Out of scope | No accessibility tooling (e.g. axe) in the suite yet; explicitly called out as out of scope in [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope) |
+| TC-XBROWSER-01 | Purchase journey on Firefox/WebKit | Out of scope | Chromium-only matrix currently; would need a new Playwright project per [TEST_STRATEGY §5](TEST_STRATEGY.md#5-environments--coverage) |
+
+## Reference / showcase specs
+
+`tests/specs/showcase/**` (locators & assertions, trace viewer & parallel execution, test-runner config) are
+onboarding/reference material demonstrating Playwright building blocks in isolation — not customer-journey
+scenarios, so they're intentionally not listed as test cases here. See the
+[building-blocks table in the README](README.md#playwright-concepts--where-theyre-used) for what each one
+demonstrates.
