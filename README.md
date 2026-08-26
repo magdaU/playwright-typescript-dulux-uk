@@ -1,34 +1,45 @@
 # Dulux E2E Tests — Playwright + TypeScript
 
-A portfolio project showcasing a production-style E2E test suite for [dulux.co.uk](https://www.dulux.co.uk), built with
-[Playwright Test](https://playwright.dev/) and TypeScript — Page Object Model, API + UI test layering, CI/CD on
-GitHub Actions, Allure reporting, and a containerised test runner.
+QA automation portfolio project: an E2E test suite for [dulux.co.uk](https://www.dulux.co.uk) built with
+Playwright and TypeScript, covering UI journeys, API preconditions, CI/CD and automated Allure reporting.
 
 [![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
 
-The project produces [Allure](https://allurereport.org/) test reports that are generated and published automatically
-to **GitHub Pages** on every run on `main`. Click the badge above (or [this link](https://magdau.github.io/playwright-typescript-dulux-uk/))
-to open the latest test results — no setup required.
+See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope, tagging, environments, risk-based prioritisation, and CI/CD details.
 
-See [TEST_STRATEGY.md](TEST_STRATEGY.md) for the approach behind this suite — scope, tagging, environments,
-risk-based prioritisation, and what's intentionally out of scope.
+## Tech stack
+
+- [Playwright Test](https://playwright.dev/docs/intro) — test runner & browser automation
+- TypeScript
+- Page Object Model
+- [Allure Report](https://allurereport.org/) — test reporting (`allure-playwright`, `allure-commandline`)
+- GitHub Actions + GitHub Pages — CI and published Allure reports
+- [Docker](https://www.docker.com/) — containerised suite ([`Dockerfile`](Dockerfile), based on `mcr.microsoft.com/playwright`)
 
 ## Project structure
 
 ```
-Dockerfile          # Containerised suite, based on mcr.microsoft.com/playwright (see "Running with Docker")
-.dockerignore       # Keeps node_modules, test artifacts, etc. out of the build context
 tests/
 ├── pages/            # Page objects (HomePage, ColorSelectionPage, CartPage, ...)
 ├── components/       # Shared UI components (NavigationComponent, AlertComponent)
 ├── setup/            # Global setup (captures storageState once for the whole suite)
 ├── constants.ts      # Shared values (BASE_URL, storage state path)
-├── fixtures.ts       # Custom Playwright test fixtures wiring page objects into tests
+├── fixtures.ts       # Custom Playwright fixtures wiring page objects into tests
 └── specs/
     ├── purchase/     # Tester-purchase journeys (UI, desktop + mobile)
     ├── setup/        # API-level precondition checks (no browser needed)
     └── showcase/     # Reference specs demonstrating locator/assertion strategies
 ```
+
+## Playwright projects
+
+`playwright.config.ts` splits the suite into three projects, each scoped to a different concern:
+
+| Project | Purpose |
+|---|---|
+| `api` | Browser-less HTTP checks confirming key pages respond before the UI suite runs |
+| `desktop-chrome` | Full UI journeys at a 1920×1080 desktop viewport |
+| `mobile-chrome` | The same UI journeys adapted for mobile (e.g. hamburger menu instead of top nav), emulating a Pixel 7 |
 
 ## Getting started
 
@@ -37,71 +48,44 @@ npm install
 npx playwright install --with-deps chromium
 ```
 
-### Running with Docker
-
-No local Node/browser setup needed — [`Dockerfile`](Dockerfile) is based on Microsoft's official
-[`mcr.microsoft.com/playwright`](https://mcr.microsoft.com/en-us/product/playwright/about) image, which ships
-Node.js and browsers pre-installed and version-matched to `@playwright/test`, so the container needs no
-`playwright install` step of its own.
+Or run everything in Docker, with no local Node/browser setup:
 
 ```bash
 docker build -t dulux-e2e .
-docker run --rm dulux-e2e                                    # run the full suite (api + desktop + mobile)
-docker run --rm dulux-e2e npx playwright test --project=api  # just the API checks
-docker run --rm dulux-e2e npx playwright test --grep @smoke  # just the smoke tests
+docker run --rm dulux-e2e
 ```
 
 ## Running tests
 
 ```bash
-npm test                              # run the full suite (api + desktop + mobile projects)
-npm run test:headed                   # run with a visible browser
-npm run test:smoke                    # run tests tagged @smoke
-npm run test:desktop                  # run only the desktop-chrome project
-npm run test:mobile                   # run only the mobile-chrome project
-npm run test:api                      # run only the API precondition checks (no browser)
-npm run test:trace                    # force a full trace for every test (for debugging/Trace Viewer demos)
-npm run report                        # open the last Playwright HTML report
-npx playwright show-trace <path>      # open a captured trace.zip in the Trace Viewer
+npm test                 # full suite (api + desktop + mobile projects)
+npm run test:headed      # run with a visible browser
+npm run test:smoke       # tests tagged @smoke
+npm run test:desktop     # desktop-chrome project only
+npm run test:mobile      # mobile-chrome project only
+npm run test:api         # API precondition checks only
+npm run test:trace       # force a full trace for every test
+npm run report           # open the last Playwright HTML report
 ```
+
+## Test coverage
+
+- **Tester purchase journey** (`tests/specs/purchase/tester-product.spec.ts`, `@purchase @regression`, smoke-tagged
+  on desktop) — find a colour, choose a shade, buy a tester, and verify it lands in the basket. Runs on both
+  desktop and mobile, differing only in navigation entry point.
+- **API preconditions** (`tests/specs/setup/`, `@api`) — confirms the home and cart pages respond before the UI
+  journey runs.
+- **Showcase specs** (`tests/specs/showcase/`, `@showcase`) — reference-only specs demonstrating locators &
+  assertions, Trace Viewer & parallel execution, and test-runner config (timeouts, conditional skip, soft
+  assertions, annotations).
 
 ## Allure reporting
 
-Test runs are also recorded as [Allure](https://allurereport.org/) results (via `allure-playwright`) for richer
-reporting — history, severity, steps and attachments per test.
+Every push to `main` runs the suite in CI and publishes the Allure report to GitHub Pages (link above), enriched
+with history/trend, environment and executor info, and a defect-category taxonomy (see
+[`.github/workflows/e2e-tests.yml`](.github/workflows/e2e-tests.yml)).
 
-```bash
-npm test                  # generates raw results into allure-results/
-npm run allure:generate   # builds the static HTML report into allure-report/
-npm run allure:open       # opens the generated report in a browser
-npm run allure:serve      # generates and serves the report in one step
-```
-
-### Allure report on GitHub Pages
-
-On every push to `main`, the CI workflow (`.github/workflows/e2e-tests.yml`):
-1. runs the Playwright suite — the full `@regression` suite (both desktop and mobile scenarios) by default;
-   `workflow_dispatch` lets you target a narrower tag (e.g. `@smoke`) via the `grep` input,
-2. enriches the raw results before generating the report:
-   - **History/Trend** — checks out the previously published report from `gh-pages` and restores its
-     `history/` folder into `allure-results/`, so the **Trends** widget builds up a pass/fail/duration graph
-     across runs instead of resetting every time,
-   - **Environment** — writes `allure-results/environment.properties` (target URL, browsers, OS, branch, commit)
-     so the report's **Environment** widget shows what the run actually covered,
-   - **Executors** — writes `allure-results/executor.json` linking the report back to the GitHub Actions run
-     that produced it (build number, build URL, report URL), shown in the **Executors** widget,
-   - **Categories** — copies the project's defect taxonomy from [`allure/categories.json`](allure/categories.json)
-     (Product defects / Test-locator defects / Timeouts / Flaky-passed-on-retry) into `allure-results/`, so
-     failures land in the **Categories** tab pre-classified instead of as one undifferentiated pile,
-3. generates the Allure report from the enriched results (`npm run allure:generate`),
-4. uploads the raw `allure-results/` as a build artifact, and
-5. publishes the generated `allure-report/` to the `gh-pages` branch via `peaceiris/actions-gh-pages`,
-   which GitHub Pages then serves at https://magdau.github.io/playwright-typescript-dulux-uk/
-
-To view it: open the link above, or check the **Actions** tab → latest run on `main` → download the
-`playwright-report` / `allure-results` artifacts to inspect locally.
-
-To reproduce the same report locally:
+To generate and view the same report locally:
 
 ```bash
 npm test
@@ -109,110 +93,18 @@ npm run allure:generate
 npm run allure:open      # or: npm run allure:serve
 ```
 
-`npm run allure:generate` always copies the project's `allure/categories.json` into the results first, so the
-**Categories** tab is classified locally too. **Trends**, **Environment** and **Executors** are populated only
-in CI, where the previous report's history and the build context (URL, branch, commit, GitHub Actions run) are
-actually available — running locally just won't show those widgets.
+Trends, Environment and Executors widgets are populated only in CI, where the previous report's history and the
+build context (branch, commit, run URL) are available.
 
-## Test cases
+## Playwright concepts — where they're used
 
-### Tester Product — add a colour tester to the basket
-`tests/specs/purchase/tester-product.spec.ts` (`@purchase @regression`)
-
-**Desktop — `@smoke @desktop`:** *desktop customer adds a tester to the basket via the colour finder*
-1. Open the cart page and reject all cookies.
-2. Verify the basket is empty.
-3. Open the home page.
-4. Open the "Find a colour" navigation item.
-5. Click "Find a colour" to go to the colour finder.
-6. Choose the colour family "Violet".
-7. Choose the specific shade "Sugared Lilac".
-8. Click "Buy a Tester in this colour".
-9. Close the confirmation alert.
-10. Open the shopping cart.
-11. Verify the quantity field is visible and equals "1".
-12. Verify the basket shows "Dulux Colour Tester" and the shade "Sugared Lilac".
-13. Take a screenshot of the basket.
-
-**Mobile — `@mobile`:** *mobile customer adds a tester to the basket via the hamburger menu*
-1. Open the cart page and reject all cookies.
-2. Verify the basket is empty.
-3. Open the home page.
-4. Open the hamburger menu.
-5. Open the "Find a colour" navigation item.
-6. Click "Find a colour" to go to the colour finder.
-7. Choose the colour family "Violet".
-8. Choose the specific shade "Sugared Lilac".
-9. Click "Buy a Tester in this colour".
-10. Close the confirmation alert.
-11. Open the shopping cart.
-12. Verify the quantity field is visible and equals "1".
-13. Verify the basket shows "Dulux Colour Tester" and the shade "Sugared Lilac".
-14. Take a screenshot of the basket.
-
-### Locators & assertions showcase
-`tests/specs/showcase/locators-and-assertions.spec.ts` (`@showcase @regression @desktop`)
-
-A reference suite (no purchase flow) that demonstrates the locator and assertion styles used across the project:
-1. **Role-based locators** — find the "Find a colour" button and "Shopping Cart" link by their accessible role + name, and assert they're visible/enabled.
-2. **Text locators** — find the "I have some colours in mind" call-to-action by its rendered text and assert its exact text content.
-3. **Count assertions** — assert how many "Bathroom" buttons and list items appear on the page (`toHaveCount`).
-4. **Page-level assertions** — navigate to the colour finder and assert the URL and title update (`toHaveURL`, `toHaveTitle`), auto-retrying until the navigation settles.
-
-### Trace Viewer & parallel tests showcase
-`tests/specs/showcase/trace-and-parallel.spec.ts` (`@showcase @regression @desktop`)
-
-Two independent, single-step checks (home page navigation, empty cart) used to demonstrate:
-1. **Trace Viewer** — `test.use({ trace: 'on' })` forces a full trace for every run of this file (rather than the project-wide `on-first-retry`), and each test is broken into named `test.step()` actions so the recording is easy to follow in `npx playwright show-trace`.
-2. **Parallel Tests** — `test.describe.configure({ mode: 'parallel' })` marks the two tests as independent so Playwright runs them concurrently across workers, on top of the project-wide `fullyParallel: true` default.
-
-### Test runner config showcase
-`tests/specs/showcase/test-runner-config.spec.ts` (`@showcase @regression @desktop`)
-
-Four independent checks demonstrating the per-test/per-suite knobs Playwright Test layers on top of `playwright.config.ts`:
-1. **Per-test timeout** — `test.setTimeout(60_000)` gives one slow check more time without changing the suite-wide default.
-2. **Conditional skip** — `test.skip(!!process.env.CI, reason)` skips an expensive check in CI (with the reason recorded in the report) while still running it locally.
-3. **Soft assertions** — `expect.soft()` checks the hero button, cart link and call-to-action in one pass and reports every failure, instead of stopping at the first.
-4. **Annotations** — `testInfo.annotations.push({ type, description })` attaches a note to the test that's visible in the HTML/Allure report.
-
-### Parallel Tests — summary
-
-Parallelism shows up at three levels in this project, smallest to largest:
-
-| Level | Mechanism | Where |
-|---|---|---|
-| Within a file | `test.describe.configure({ mode: 'parallel' })` opts independent tests in the same file into concurrent execution | `tests/specs/showcase/trace-and-parallel.spec.ts` |
-| Across a project | `fullyParallel: true` runs every test file in its own worker by default | `playwright.config.ts` |
-| Across projects | The `api`, `desktop-chrome` and `mobile-chrome` projects run side by side, each with its own browser/device/storage-state setup | `playwright.config.ts` `projects` |
-
-Locally, `workers` is left at Playwright's default (CPU-core based) for maximum speed; in CI it's capped at `2`
-(`workers: process.env.CI ? 2 : undefined`) to stay within the runner's resources, with `retries: 2` to absorb
-flakiness from a real, uncontrolled production site.
-
-## Tech stack
-
-- [Playwright Test](https://playwright.dev/docs/intro) — test runner & browser automation
-- TypeScript
-- Page Object Model
-- [Allure Report](https://allurereport.org/) — test reporting (`allure-playwright`, `allure-commandline`)
-- GitHub Actions CI + GitHub Pages — automated runs and published Allure reports
-- [Docker](https://www.docker.com/) — containerised suite via the official `mcr.microsoft.com/playwright` image (see [`Dockerfile`](Dockerfile))
-
-## Common Playwright building blocks — where they're used here
-
-The table below maps the concepts that show up in most Playwright projects to where each one is actually
-applied in this repo. Every concept listed here is implemented — each one was built out on its own
-feature branch, one concept at a time, so the table doubles as a tour of the project's history.
-
-| Concept | Where it's applied | Notes |
-|---|---|---|
-| **Test runner** (Playwright Test — TS equivalent of JUnit/TestNG) | `playwright.config.ts`, every file in `tests/specs/**`; per-test config knobs showcased in `tests/specs/showcase/test-runner-config.spec.ts` | Native runner: `test.describe`, tagged `test()`, hooks via fixtures instead of `@BeforeEach`/`@AfterEach`, plus `test.setTimeout()`, `test.skip(condition, reason)`, `expect.soft()` and `testInfo.annotations` for fine-grained per-test control |
-| **Browser Contexts** | `tests/fixtures.ts` (each test gets an isolated `page`/context from Playwright Test), `playwright.config.ts` `projects` (`desktop-chrome` vs `mobile-chrome` carry distinct viewport/device contexts) | No shared cookies/storage between tests — each journey starts clean |
-| **Storage State** | `tests/setup/global-setup.ts` + `playwright.config.ts` (`globalSetup`, `use.storageState`) | Cookie-consent is accepted **once** before the whole suite runs and persisted to `playwright/.auth/storage-state.json`; every test then starts already past the consent banner — no repeated `rejectAllCookies()` calls |
-| **API Setup** | `tests/specs/setup/api-setup.spec.ts`, runs in its own `api` project (no browser) | Uses Playwright's `request` fixture / `APIRequestContext` to verify the home page and cart page respond with a 2xx **before** the full UI journey runs — a fast precondition check that doesn't need a browser |
-| **Locators** | `tests/pages/*.ts`, `tests/components/*.ts`, showcased end-to-end in `tests/specs/showcase/locators-and-assertions.spec.ts` | Role/text-first locators: `getByRole`, `getByText`, plus `filter({ hasText })` and chaining (e.g. `ColorSelectionPage.openVisualizerApp()`) |
-| **Assertions** | `tests/specs/purchase/tester-product.spec.ts`, `tests/specs/showcase/locators-and-assertions.spec.ts` | Web-first, auto-retrying assertions: `toBeVisible()`, `toBeEnabled()`, `toHaveText()`, `toHaveValue()`, `toHaveCount()`, and page-level `toHaveURL()` / `toHaveTitle()` |
-| **Trace Viewer** | `playwright.config.ts` (`trace: 'on-first-retry'`, `screenshot: 'only-on-failure'`, `video: 'retain-on-failure'`); showcased in `tests/specs/showcase/trace-and-parallel.spec.ts` (`test.use({ trace: 'on' })` + `test.step()`), runnable via `npm run test:trace` | Traces are captured on retry by default (and uploaded as part of the Playwright HTML report in CI for failure diagnosis), or forced for every run with `--trace on` when you actually want to inspect one (`npx playwright show-trace`) |
-| **Parallel Tests** | `playwright.config.ts` (`fullyParallel: true`, `workers: process.env.CI ? 2 : undefined`); showcased in `tests/specs/showcase/trace-and-parallel.spec.ts` (`test.describe.configure({ mode: 'parallel' })`) | Desktop and mobile projects run as independent, parallel jobs by default, and independent tests within a single file can be marked safe to run concurrently too |
-
-See [TEST_STRATEGY.md](TEST_STRATEGY.md) for the reasoning behind these choices.
+| Concept | Where it's applied |
+|---|---|
+| **Test runner config** | `playwright.config.ts`; per-test knobs (`setTimeout`, `test.skip`, `expect.soft`, annotations) in `tests/specs/showcase/test-runner-config.spec.ts` |
+| **Browser contexts** | `tests/fixtures.ts` (isolated `page` per test); `desktop-chrome`/`mobile-chrome` projects carry distinct viewports |
+| **Storage state** | `tests/setup/global-setup.ts` accepts cookie consent once, persisted to `playwright/.auth/storage-state.json` |
+| **API testing** | `tests/specs/setup/api-setup.spec.ts` — `request` fixture, no browser |
+| **Locators** | `tests/pages/*.ts`, `tests/components/*.ts` — role/text-first (`getByRole`, `getByText`), showcased in `locators-and-assertions.spec.ts` |
+| **Assertions** | Web-first, auto-retrying: `toBeVisible`, `toHaveValue`, `toHaveCount`, `toHaveURL`, `toHaveTitle` |
+| **Trace Viewer** | `trace: 'on-first-retry'` in config; forced per-file in `trace-and-parallel.spec.ts` (`test.use({ trace: 'on' })`) |
+| **Parallel execution** | `fullyParallel: true`; `test.describe.configure({ mode: 'parallel' })` in `trace-and-parallel.spec.ts`; `api`/`desktop-chrome`/`mobile-chrome` projects run side by side |
