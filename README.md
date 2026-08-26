@@ -7,8 +7,9 @@ Playwright and TypeScript, covering UI journeys, API preconditions, CI/CD and au
 
 See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope, tagging, environments, risk-based prioritisation, and CI/CD
 details, [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the concrete scenarios behind the suite — including ones
-identified but deliberately not automated, and why — and [BUG_REPORTS.md](BUG_REPORTS.md) for real defects
-found on production by the accessibility audit.
+identified but deliberately not automated, and why — [BUG_REPORTS.md](BUG_REPORTS.md) for real defects found on
+production by the accessibility audit, and [KEY_FINDINGS.md](KEY_FINDINGS.md) for what running this suite has
+actually shown.
 
 ## Tech stack
 
