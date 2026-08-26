@@ -14,6 +14,9 @@ test.describe('API setup — precondition checks', { tag: ['@api', '@regression'
   test('cart page responds before the UI journey runs', async ({ request, baseURL }) => {
     const response = await request.get(`${baseURL}/en/store/cart`);
 
-    expect(response.ok(), `Expected ${baseURL}/en/store/cart to respond with a 2xx status`).toBeTruthy();
+    expect(
+      response.ok(),
+      `Expected ${baseURL}/en/store/cart to respond with a 2xx status`,
+    ).toBeTruthy();
   });
 });

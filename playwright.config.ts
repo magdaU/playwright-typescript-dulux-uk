@@ -11,11 +11,14 @@ export default defineConfig({
   reporter: [
     ['html', { open: 'never' }],
     ['list'],
-    ['allure-playwright', {
-      resultsDir: 'allure-results',
-      detail: true,
-      suiteTitle: false,
-    }],
+    [
+      'allure-playwright',
+      {
+        resultsDir: 'allure-results',
+        detail: true,
+        suiteTitle: false,
+      },
+    ],
   ],
   use: {
     baseURL: BASE_URL,

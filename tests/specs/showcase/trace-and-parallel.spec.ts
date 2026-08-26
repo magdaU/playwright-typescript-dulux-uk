@@ -15,26 +15,30 @@ import { test, expect } from '../../fixtures';
 //    top of the project-wide `fullyParallel: true` default in playwright.config.ts.
 test.use({ trace: 'on' });
 
-test.describe('Trace Viewer & parallel tests showcase', { tag: ['@showcase', '@regression', '@desktop'] }, () => {
-  test.describe.configure({ mode: 'parallel' });
+test.describe(
+  'Trace Viewer & parallel tests showcase',
+  { tag: ['@showcase', '@regression', '@desktop'] },
+  () => {
+    test.describe.configure({ mode: 'parallel' });
 
-  test('home page renders its main navigation', async ({ page, homePage }) => {
-    await test.step('open the home page', async () => {
-      await homePage.open();
+    test('home page renders its main navigation', async ({ page, homePage }) => {
+      await test.step('open the home page', async () => {
+        await homePage.open();
+      });
+
+      await test.step('verify the "Find a colour" navigation is visible', async () => {
+        await expect(page.getByRole('button', { name: 'Find a colour' })).toBeVisible();
+      });
     });
 
-    await test.step('verify the "Find a colour" navigation is visible', async () => {
-      await expect(page.getByRole('button', { name: 'Find a colour' })).toBeVisible();
-    });
-  });
+    test('cart page renders an empty basket', async ({ cartPage }) => {
+      await test.step('open the cart page', async () => {
+        await cartPage.open();
+      });
 
-  test('cart page renders an empty basket', async ({ cartPage }) => {
-    await test.step('open the cart page', async () => {
-      await cartPage.open();
+      await test.step('verify the basket is empty', async () => {
+        await expect(cartPage.getBasketEmptyText()).toBeVisible();
+      });
     });
-
-    await test.step('verify the basket is empty', async () => {
-      await expect(cartPage.getBasketEmptyText()).toBeVisible();
-    });
-  });
-});
+  },
+);
