@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures';
 
 test.describe('Purchase a colour tester', { tag: ['@purchase', '@regression'] }, () => {
   const colourFamily = 'Violet';
-  const shade = 'Gentle Lavender';
+  const shade = 'Sugared Lilac';
 
   test(
     'desktop customer adds a tester to the basket via the colour finder',
