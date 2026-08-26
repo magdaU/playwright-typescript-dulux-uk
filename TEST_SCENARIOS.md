@@ -69,6 +69,28 @@ pre-existing production violations (missing `<html lang>`, invalid/prohibited AR
 test; `minor`/`moderate` findings are attached to the report (`axe-results-*.json`) but don't fail it, since
 they're often cosmetic and would make an audit of third-party content noisy rather than actionable.
 
+## Cross-browser check
+
+| ID             | Scenario                                                   | Priority           |
+| -------------- | ---------------------------------------------------------- | ------------------ |
+| TC-XBROWSER-01 | Desktop purchase journey (TC-PURCHASE-01) works on Firefox | Non-blocking check |
+| TC-XBROWSER-02 | Desktop purchase journey (TC-PURCHASE-01) works on WebKit  | Non-blocking check |
+
+Automated: `tests/specs/purchase/tester-product.spec.ts` (same spec as TC-PURCHASE-01, reused as-is) via the
+`desktop-firefox`/`desktop-webkit` projects — `npm run test:crossbrowser` (or `test:firefox` / `test:webkit`
+individually). **Deliberately not in the default `npm test`/CI regression run** (see
+[TEST_STRATEGY §4](TEST_STRATEGY.md#4-tagging--execution-strategy) for how the project scoping works): the
+first run found real failures on both —
+
+- **Firefox:** got past colour selection but timed out waiting for the "Sugared Lilac" shade button.
+- **WebKit:** timed out waiting for the "Find a colour" nav link — the page had already navigated straight to
+  the colour-listing view, skipping a step the Chrome flow expects.
+
+Root cause isn't yet isolated — it could be genuine behavioural differences in how production serves
+Firefox/WebKit, or `NavigationComponent`/`ColorSelectionPage` encoding assumptions specific to Chrome's
+interaction model (both page objects were originally written and only verified against `desktop-chrome`). Kept
+non-blocking until that's investigated, per [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements).
+
 ## Identified but not automated
 
 Scenarios that came up during test design and are deliberately out, with the reasoning — not gaps discovered by
@@ -80,7 +102,6 @@ accident.
 | TC-VIS-02      | Mobile: Visualizer App gracefully degrades to a support message instead of opening | Not yet automated | Same as above — ported from the original Java/Cucumber suite's coverage, not yet reimplemented here                                                                                |
 | TC-CHECKOUT-01 | Completing checkout and receiving an order confirmation                            | Out of scope      | Suite runs against **live production** — completing checkout would create a real order/charge (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope))                                   |
 | TC-VISUAL-01   | Pixel-level visual regression on colour-selection/landing pages                    | Out of scope      | No visual-diff tooling wired in; screenshots are captured as evidence only, not compared (see [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements))                        |
-| TC-XBROWSER-01 | Purchase journey on Firefox/WebKit                                                 | Out of scope      | Chromium-only matrix currently; would need a new Playwright project per [TEST_STRATEGY §5](TEST_STRATEGY.md#5-environments--coverage)                                              |
 
 ## Reference / showcase specs
 

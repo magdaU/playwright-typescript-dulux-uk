@@ -42,7 +42,7 @@ jobs:
           npm run format:check
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Checkout previous Allure report (for history/trend)
         if: always()
@@ -53,12 +53,17 @@ jobs:
           path: previous-report
 
       - name: Run Playwright tests
-        run: npx playwright test --grep "${{ github.event.inputs.grep || '@regression' }}"
+        run: npx playwright test --grep "${{ github.event.inputs.grep || '@regression' }}" --project=api --project=desktop-chrome --project=mobile-chrome
 
       - name: Accessibility audit (non-blocking)
         if: always()
         continue-on-error: true
         run: npm run test:a11y
+
+      - name: Cross-browser check on Firefox/WebKit (non-blocking)
+        if: always()
+        continue-on-error: true
+        run: npm run test:crossbrowser
 
       - name: Restore Allure history for trend graphs
         if: always()
@@ -73,7 +78,7 @@ jobs:
         run: |
           cat > allure-results/environment.properties << 'EOF'
           Base.URL=https://www.dulux.co.uk
-          Browsers=Chromium (desktop-chrome 1920x1080, mobile-chrome Pixel 7 emulation)
+          Browsers=Chromium (desktop-chrome 1920x1080, mobile-chrome Pixel 7 emulation); Firefox/WebKit checked non-blocking on @purchase only
           OS=${{ runner.os }}
           Branch=${{ github.ref_name }}
           Commit=https://github.com/${{ github.repository }}/commit/${{ github.sha }}
