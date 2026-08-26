@@ -14,12 +14,14 @@ outside, the way a real user would experience them.
 ## 2. Scope
 
 ### In scope
+
 - Critical shopping journeys: colour discovery → tester purchase → basket
 - Cross-device behaviour: desktop (1920×1080) vs. mobile (Pixel 7 viewport) navigation and layout differences
 - Third-party/embedded experiences reachable from the site (e.g. the Visualizer App opening in a new tab)
 - Cookie-consent and basic alert/notification handling that gates the rest of the journey
 
 ### Out of scope
+
 - Visual regression / pixel-diff testing (screenshots are captured for evidence, not compared)
 - Performance, load, accessibility (a11y) and security testing
 - Payment/checkout completion (no real transactions are performed against production)
@@ -28,15 +30,15 @@ outside, the way a real user would experience them.
 
 ## 3. Test levels & types
 
-| Level | What it covers | Where it lives |
-|---|---|---|
-| E2E UI tests | Full user journeys through the real site, asserting on visible outcomes (basket contents, navigation, page transitions) | `tests/specs/purchase/**/*.spec.ts` |
-| API precondition checks (`@api`) | Fast, browser-less HTTP checks (via Playwright's `request` fixture) that key pages respond with a 2xx **before** the UI journeys run | `tests/specs/setup/*.spec.ts`, runs in its own `api` project |
-| Reference/showcase specs (`@showcase`) | Self-contained demos of the Playwright building blocks used across the suite (locators, assertions, storage state, trace viewer, parallel execution, test-runner config) — written for onboarding/reference, not customer-journey coverage | `tests/specs/showcase/**/*.spec.ts` |
-| Smoke (`@smoke`) | The smallest set of tests that prove the core journey still works — run first, fail fast | tagged subset of the above |
-| Regression (`@regression`) | The full suite for a feature area, run on every push/PR to `main` | tagged subset of the above |
+| Level                                  | What it covers                                                                                                                                                                                                                             | Where it lives                                               |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| E2E UI tests                           | Full user journeys through the real site, asserting on visible outcomes (basket contents, navigation, page transitions)                                                                                                                    | `tests/specs/purchase/**/*.spec.ts`                          |
+| API precondition checks (`@api`)       | Fast, browser-less HTTP checks (via Playwright's `request` fixture) that key pages respond with a 2xx **before** the UI journeys run                                                                                                       | `tests/specs/setup/*.spec.ts`, runs in its own `api` project |
+| Reference/showcase specs (`@showcase`) | Self-contained demos of the Playwright building blocks used across the suite (locators, assertions, storage state, trace viewer, parallel execution, test-runner config) — written for onboarding/reference, not customer-journey coverage | `tests/specs/showcase/**/*.spec.ts`                          |
+| Smoke (`@smoke`)                       | The smallest set of tests that prove the core journey still works — run first, fail fast                                                                                                                                                   | tagged subset of the above                                   |
+| Regression (`@regression`)             | The full suite for a feature area, run on every push/PR to `main`                                                                                                                                                                          | tagged subset of the above                                   |
 
-Tests are **not** split by "unit/integration/E2E" within this repo — this repo *is* the E2E layer. Granularity
+Tests are **not** split by "unit/integration/E2E" within this repo — this repo _is_ the E2E layer. Granularity
 is instead expressed through tags (see [§4](#4-tagging--execution-strategy)) so the same suite can be run at
 different depths depending on context (fast feedback in PRs vs. full regression on `main`).
 
@@ -45,14 +47,14 @@ different depths depending on context (fast feedback in PRs vs. full regression 
 Tests are tagged at the `describe`/`test` level (mirrors the `@Epic`/`@Feature`/`@Story` structure used in the
 original Cucumber/Java version of this suite, simplified to flat tags for the native Playwright runner):
 
-| Tag | Meaning | Example use |
-|---|---|---|
-| `@smoke` | Must-pass, fastest-signal subset | Run on every push for quick feedback |
-| `@regression` | Full suite for a feature area | Run on `main` / before release |
-| `@desktop` / `@mobile` | Viewport-specific scenarios | Target a specific device class |
-| `@purchase`, `@visualizer` | Feature-area grouping | Run only the tests relevant to a change |
-| `@api` | Browser-less HTTP precondition checks | Fast first signal that key pages are up before the UI suite runs |
-| `@showcase` | Reference specs demonstrating a Playwright building block in isolation | Onboarding/reference reads — kept out of the risk-based prioritisation in [§10](#10-risk-based-prioritisation) since they don't cover a customer journey |
+| Tag                        | Meaning                                                                | Example use                                                                                                                                              |
+| -------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@smoke`                   | Must-pass, fastest-signal subset                                       | Run on every push for quick feedback                                                                                                                     |
+| `@regression`              | Full suite for a feature area                                          | Run on `main` / before release                                                                                                                           |
+| `@desktop` / `@mobile`     | Viewport-specific scenarios                                            | Target a specific device class                                                                                                                           |
+| `@purchase`, `@visualizer` | Feature-area grouping                                                  | Run only the tests relevant to a change                                                                                                                  |
+| `@api`                     | Browser-less HTTP precondition checks                                  | Fast first signal that key pages are up before the UI suite runs                                                                                         |
+| `@showcase`                | Reference specs demonstrating a Playwright building block in isolation | Onboarding/reference reads — kept out of the risk-based prioritisation in [§10](#10-risk-based-prioritisation) since they don't cover a customer journey |
 
 Execution is filtered with `--grep`:
 
@@ -75,9 +77,10 @@ menu" scenario executing at 1920×1080).
 - **Browser:** Chromium only, via two device profiles:
   - `desktop-chrome` — 1920×1080 viewport
   - `mobile-chrome` — Pixel 7 emulation
-  
+
   Firefox/WebKit are not currently part of the matrix; this can be extended by adding projects in
   `playwright.config.ts` if cross-browser risk becomes material.
+
 - **Network conditions:** default (no throttling). Not currently in scope.
 
 ## 6. Test design approach
@@ -114,7 +117,7 @@ menu" scenario executing at 1920×1080).
 - **Playwright HTML report** — generated every run (`playwright-report/`), with trace/video/screenshot capture
   on failure (`trace: on-first-retry`, `screenshot: only-on-failure`, `video: retain-on-failure`) for fast
   failure diagnosis. When actively investigating a flow rather than waiting for a failure/retry, `npm run
-  test:trace` (`--trace on`) forces a full trace for every test — see `tests/specs/showcase/trace-and-parallel.spec.ts`
+test:trace` (`--trace on`) forces a full trace for every test — see `tests/specs/showcase/trace-and-parallel.spec.ts`
   for a per-file example (`test.use({ trace: 'on' })` + named `test.step()`s) that's easy to follow in
   `npx playwright show-trace`.
 - **Allure report** — richer, stakeholder-friendly reporting (history, severities, suites, timeline) generated
@@ -127,6 +130,7 @@ menu" scenario executing at 1920×1080).
 ## 9. CI/CD integration
 
 GitHub Actions (`.github/workflows/e2e-tests.yml`) runs the suite:
+
 - on every push to `main`, `feature/**`, `fix/**`, and on PRs into `main` — full `@regression` suite by
   default, so both desktop and mobile journeys are exercised before/at merge time;
 - on demand via `workflow_dispatch`, with a configurable `grep` input (defaults to `@regression`, can be

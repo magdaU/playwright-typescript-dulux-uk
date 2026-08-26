@@ -35,11 +35,11 @@ tests/
 
 `playwright.config.ts` splits the suite into three projects, each scoped to a different concern:
 
-| Project | Purpose |
-|---|---|
-| `api` | Browser-less HTTP checks confirming key pages respond before the UI suite runs |
-| `desktop-chrome` | Full UI journeys at a 1920×1080 desktop viewport |
-| `mobile-chrome` | The same UI journeys adapted for mobile (e.g. hamburger menu instead of top nav), emulating a Pixel 7 |
+| Project          | Purpose                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------------- |
+| `api`            | Browser-less HTTP checks confirming key pages respond before the UI suite runs                        |
+| `desktop-chrome` | Full UI journeys at a 1920×1080 desktop viewport                                                      |
+| `mobile-chrome`  | The same UI journeys adapted for mobile (e.g. hamburger menu instead of top nav), emulating a Pixel 7 |
 
 ## Getting started
 
@@ -67,6 +67,17 @@ npm run test:api         # API precondition checks only
 npm run test:trace       # force a full trace for every test
 npm run report           # open the last Playwright HTML report
 ```
+
+## Code quality
+
+```bash
+npm run lint             # ESLint (TypeScript + eslint-plugin-playwright rules)
+npm run lint:fix         # ESLint with autofix
+npm run format           # Prettier — write
+npm run format:check     # Prettier — check only (used in CI)
+```
+
+Both run in CI on every push/PR alongside the test suite.
 
 ## Test coverage
 
@@ -98,13 +109,13 @@ build context (branch, commit, run URL) are available.
 
 ## Playwright concepts — where they're used
 
-| Concept | Where it's applied |
-|---|---|
-| **Test runner config** | `playwright.config.ts`; per-test knobs (`setTimeout`, `test.skip`, `expect.soft`, annotations) in `tests/specs/showcase/test-runner-config.spec.ts` |
-| **Browser contexts** | `tests/fixtures.ts` (isolated `page` per test); `desktop-chrome`/`mobile-chrome` projects carry distinct viewports |
-| **Storage state** | `tests/setup/global-setup.ts` accepts cookie consent once, persisted to `playwright/.auth/storage-state.json` |
-| **API testing** | `tests/specs/setup/api-setup.spec.ts` — `request` fixture, no browser |
-| **Locators** | `tests/pages/*.ts`, `tests/components/*.ts` — role/text-first (`getByRole`, `getByText`), showcased in `locators-and-assertions.spec.ts` |
-| **Assertions** | Web-first, auto-retrying: `toBeVisible`, `toHaveValue`, `toHaveCount`, `toHaveURL`, `toHaveTitle` |
-| **Trace Viewer** | `trace: 'on-first-retry'` in config; forced per-file in `trace-and-parallel.spec.ts` (`test.use({ trace: 'on' })`) |
+| Concept                | Where it's applied                                                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Test runner config** | `playwright.config.ts`; per-test knobs (`setTimeout`, `test.skip`, `expect.soft`, annotations) in `tests/specs/showcase/test-runner-config.spec.ts`                      |
+| **Browser contexts**   | `tests/fixtures.ts` (isolated `page` per test); `desktop-chrome`/`mobile-chrome` projects carry distinct viewports                                                       |
+| **Storage state**      | `tests/setup/global-setup.ts` accepts cookie consent once, persisted to `playwright/.auth/storage-state.json`                                                            |
+| **API testing**        | `tests/specs/setup/api-setup.spec.ts` — `request` fixture, no browser                                                                                                    |
+| **Locators**           | `tests/pages/*.ts`, `tests/components/*.ts` — role/text-first (`getByRole`, `getByText`), showcased in `locators-and-assertions.spec.ts`                                 |
+| **Assertions**         | Web-first, auto-retrying: `toBeVisible`, `toHaveValue`, `toHaveCount`, `toHaveURL`, `toHaveTitle`                                                                        |
+| **Trace Viewer**       | `trace: 'on-first-retry'` in config; forced per-file in `trace-and-parallel.spec.ts` (`test.use({ trace: 'on' })`)                                                       |
 | **Parallel execution** | `fullyParallel: true`; `test.describe.configure({ mode: 'parallel' })` in `trace-and-parallel.spec.ts`; `api`/`desktop-chrome`/`mobile-chrome` projects run side by side |

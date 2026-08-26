@@ -12,12 +12,12 @@ on:
   workflow_dispatch:
     inputs:
       grep:
-        description: "Tag expression to run (e.g. @smoke, @regression, @desktop)"
+        description: 'Tag expression to run (e.g. @smoke, @regression, @desktop)'
         required: false
-        default: "@regression"
+        default: '@regression'
 
 permissions:
-  contents: write   # required by peaceiris/actions-gh-pages to push to gh-pages branch
+  contents: write # required by peaceiris/actions-gh-pages to push to gh-pages branch
 
 jobs:
   playwright-tests:
@@ -35,6 +35,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Lint & format check
+        run: |
+          npm run lint
+          npm run format:check
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
@@ -108,4 +113,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: allure-report
           publish_branch: gh-pages
-          commit_message: "ci: publish Allure report [skip ci]"
+          commit_message: 'ci: publish Allure report [skip ci]'
