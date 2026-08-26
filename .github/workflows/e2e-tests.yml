@@ -76,7 +76,7 @@ jobs:
             "buildOrder": ${{ github.run_number }},
             "buildName": "Run #${{ github.run_number }}",
             "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            "reportUrl": "https://magdau.github.io/playwright-ts-dulux/",
+            "reportUrl": "https://magdau.github.io/playwright-typescript-dulux-uk/",
             "reportName": "Allure Report"
           }
           EOF

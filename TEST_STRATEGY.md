@@ -120,7 +120,7 @@ menu" scenario executing at 1920×1080).
 - **Allure report** — richer, stakeholder-friendly reporting (history, severities, suites, timeline) generated
   via `allure-playwright` + `allure-commandline`. Published automatically to **GitHub Pages** on every push to
   `main`:
-  [![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-ts-dulux/)
+  [![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
 - **Manual evidence** — each journey captures a timestamped screenshot of its final state (e.g. the basket) to
   `screenshots/`, useful for quick visual sanity checks alongside the automated assertions.
 
