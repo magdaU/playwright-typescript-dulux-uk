@@ -1,5 +1,5 @@
 {
-  "name": "playwright-ts-dulux",
+  "name": "playwright-typescript-dulux-uk",
   "version": "1.0.0",
   "description": "Playwright + TypeScript end-to-end tests for dulux.co.uk",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/magdaU/playwright-ts-dulux.git"
+    "url": "git+https://github.com/magdaU/playwright-typescript-dulux-uk.git"
   },
   "keywords": [
     "playwright",
@@ -30,9 +30,9 @@
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/magdaU/playwright-ts-dulux/issues"
+    "url": "https://github.com/magdaU/playwright-typescript-dulux-uk/issues"
   },
-  "homepage": "https://github.com/magdaU/playwright-ts-dulux#readme",
+  "homepage": "https://github.com/magdaU/playwright-typescript-dulux-uk#readme",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.2",

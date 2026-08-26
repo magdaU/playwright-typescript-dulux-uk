@@ -1,11 +1,13 @@
 # Dulux E2E Tests — Playwright + TypeScript
 
-End-to-end tests for [dulux.co.uk](https://www.dulux.co.uk) built with [Playwright Test](https://playwright.dev/) and TypeScript.
+A portfolio project showcasing a production-style E2E test suite for [dulux.co.uk](https://www.dulux.co.uk), built with
+[Playwright Test](https://playwright.dev/) and TypeScript — Page Object Model, API + UI test layering, CI/CD on
+GitHub Actions, Allure reporting, and a containerised test runner.
 
-[![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-ts-dulux/)
+[![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
 
 The project produces [Allure](https://allurereport.org/) test reports that are generated and published automatically
-to **GitHub Pages** on every run on `main`. Click the badge above (or [this link](https://magdau.github.io/playwright-ts-dulux/))
+to **GitHub Pages** on every run on `main`. Click the badge above (or [this link](https://magdau.github.io/playwright-typescript-dulux-uk/))
 to open the latest test results — no setup required.
 
 See [TEST_STRATEGY.md](TEST_STRATEGY.md) for the approach behind this suite — scope, tagging, environments,
@@ -94,7 +96,7 @@ On every push to `main`, the CI workflow (`.github/workflows/e2e-tests.yml`):
 3. generates the Allure report from the enriched results (`npm run allure:generate`),
 4. uploads the raw `allure-results/` as a build artifact, and
 5. publishes the generated `allure-report/` to the `gh-pages` branch via `peaceiris/actions-gh-pages`,
-   which GitHub Pages then serves at https://magdau.github.io/playwright-ts-dulux/
+   which GitHub Pages then serves at https://magdau.github.io/playwright-typescript-dulux-uk/
 
 To view it: open the link above, or check the **Actions** tab → latest run on `main` → download the
 `playwright-report` / `allure-results` artifacts to inspect locally.
