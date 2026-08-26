@@ -37,19 +37,26 @@ tests/
 
 ## Playwright projects
 
-`playwright.config.ts` splits the suite into three projects, each scoped to a different concern:
+`playwright.config.ts` splits the suite into projects, each scoped to a different concern:
 
-| Project          | Purpose                                                                                               |
-| ---------------- | ----------------------------------------------------------------------------------------------------- |
-| `api`            | Browser-less HTTP checks confirming key pages respond before the UI suite runs                        |
-| `desktop-chrome` | Full UI journeys at a 1920×1080 desktop viewport                                                      |
-| `mobile-chrome`  | The same UI journeys adapted for mobile (e.g. hamburger menu instead of top nav), emulating a Pixel 7 |
+| Project           | Purpose                                                                                               | In default `npm test` / CI regression? |
+| ----------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `api`             | Browser-less HTTP checks confirming key pages respond before the UI suite runs                        | Yes                                    |
+| `desktop-chrome`  | Full UI journeys at a 1920×1080 desktop viewport                                                      | Yes                                    |
+| `mobile-chrome`   | The same UI journeys adapted for mobile (e.g. hamburger menu instead of top nav), emulating a Pixel 7 | Yes                                    |
+| `desktop-firefox` | Cross-browser check of the highest-risk journey (`@purchase`) only, at 1920×1080                      | No — on demand, `npm run test:firefox` |
+| `desktop-webkit`  | Same as above, WebKit                                                                                 | No — on demand, `npm run test:webkit`  |
+
+The Firefox/WebKit projects were added deliberately narrow in scope (purchase journey only, not the full
+desktop-chrome matrix) and kept out of the default run: the first run surfaced real behavioural differences from
+Chrome on production (navigation and shade-selection didn't reach the same state) that need investigation before
+this becomes a CI gate. See [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check).
 
 ## Getting started
 
 ```bash
 npm install
-npx playwright install --with-deps chromium
+npx playwright install --with-deps chromium         # add firefox webkit for the cross-browser check
 ```
 
 Or run everything in Docker, with no local Node/browser setup:
@@ -69,6 +76,7 @@ npm run test:desktop     # desktop-chrome project only
 npm run test:mobile      # mobile-chrome project only
 npm run test:api         # API precondition checks only
 npm run test:a11y        # accessibility audit (non-blocking, not part of npm test)
+npm run test:crossbrowser # @purchase on Firefox + WebKit (non-blocking, not part of npm test)
 npm run test:trace       # force a full trace for every test
 npm run report           # open the last Playwright HTML report
 ```
@@ -97,6 +105,9 @@ Both run in CI on every push/PR alongside the test suite.
 - **Accessibility audit** (`tests/specs/accessibility/`, `@a11y`) — axe-core scans of the home and cart pages
   for serious/critical WCAG violations. Non-blocking: an initial run found real production defects, tracked in
   [BUG_REPORTS.md](BUG_REPORTS.md) rather than failing CI indefinitely.
+- **Cross-browser check** (`desktop-firefox`/`desktop-webkit` projects, `@purchase`) — the purchase journey only,
+  run on demand. Non-blocking for the same reason as the a11y audit: the first run found real behavioural
+  differences from Chrome, not yet root-caused (see [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check)).
 
 ## Allure reporting
 
@@ -120,7 +131,7 @@ build context (branch, commit, run URL) are available.
 | Concept                | Where it's applied                                                                                                                                                       |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Test runner config** | `playwright.config.ts`; per-test knobs (`setTimeout`, `test.skip`, `expect.soft`, annotations) in `tests/specs/showcase/test-runner-config.spec.ts`                      |
-| **Browser contexts**   | `tests/fixtures.ts` (isolated `page` per test); `desktop-chrome`/`mobile-chrome` projects carry distinct viewports                                                       |
+| **Browser contexts**   | `tests/fixtures.ts` (isolated `page` per test); `desktop-chrome`/`mobile-chrome`/`desktop-firefox`/`desktop-webkit` projects carry distinct viewports/engines            |
 | **Storage state**      | `tests/setup/global-setup.ts` accepts cookie consent once, persisted to `playwright/.auth/storage-state.json`                                                            |
 | **API testing**        | `tests/specs/setup/api-setup.spec.ts` — `request` fixture, no browser                                                                                                    |
 | **Locators**           | `tests/pages/*.ts`, `tests/components/*.ts` — role/text-first (`getByRole`, `getByText`), showcased in `locators-and-assertions.spec.ts`                                 |

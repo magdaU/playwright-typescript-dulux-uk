@@ -47,5 +47,21 @@ export default defineConfig({
       use: { ...devices['Pixel 7'] },
       grep: /@mobile/,
     },
+    {
+      // Cross-browser check for the highest-risk journey only (see TEST_STRATEGY
+      // §10 risk-based prioritisation) — not the full desktop-chrome matrix, to
+      // avoid tripling CI time/production traffic for showcase/a11y specs that
+      // don't carry meaningful cross-browser risk.
+      name: 'desktop-firefox',
+      testMatch: '**/purchase/**/*.spec.ts',
+      use: { ...devices['Desktop Firefox'], viewport: { width: 1920, height: 1080 } },
+      grepInvert: /@mobile/,
+    },
+    {
+      name: 'desktop-webkit',
+      testMatch: '**/purchase/**/*.spec.ts',
+      use: { ...devices['Desktop Safari'], viewport: { width: 1920, height: 1080 } },
+      grepInvert: /@mobile/,
+    },
   ],
 });

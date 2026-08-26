@@ -22,6 +22,7 @@ outside, the way a real user would experience them.
 - Third-party/embedded experiences reachable from the site (e.g. the Visualizer App opening in a new tab)
 - Cookie-consent and basic alert/notification handling that gates the rest of the journey
 - Accessibility (a11y) — as a non-blocking audit, not a CI gate (see `@a11y` in [§4](#4-tagging--execution-strategy))
+- Cross-browser check of the purchase journey on Firefox/WebKit — also non-blocking (see [§5](#5-environments--coverage))
 
 ### Out of scope
 
@@ -29,18 +30,18 @@ outside, the way a real user would experience them.
 - Performance, load, and security testing
 - Payment/checkout completion (no real transactions are performed against production)
 - API-level/contract testing of Dulux's backend services
-- Cross-browser matrix beyond Chromium (see [§5](#5-environments--coverage))
 
 ## 3. Test levels & types
 
-| Level                                  | What it covers                                                                                                                                                                                                                             | Where it lives                                               |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| E2E UI tests                           | Full user journeys through the real site, asserting on visible outcomes (basket contents, navigation, page transitions)                                                                                                                    | `tests/specs/purchase/**/*.spec.ts`                          |
-| API precondition checks (`@api`)       | Fast, browser-less HTTP checks (via Playwright's `request` fixture) that key pages respond with a 2xx **before** the UI journeys run                                                                                                       | `tests/specs/setup/*.spec.ts`, runs in its own `api` project |
-| Reference/showcase specs (`@showcase`) | Self-contained demos of the Playwright building blocks used across the suite (locators, assertions, storage state, trace viewer, parallel execution, test-runner config) — written for onboarding/reference, not customer-journey coverage | `tests/specs/showcase/**/*.spec.ts`                          |
-| Accessibility audit (`@a11y`)          | axe-core scans of key pages for serious/critical WCAG violations — non-blocking (see [§4](#4-tagging--execution-strategy)); findings tracked in [BUG_REPORTS.md](BUG_REPORTS.md)                                                           | `tests/specs/accessibility/*.spec.ts`                        |
-| Smoke (`@smoke`)                       | The smallest set of tests that prove the core journey still works — run first, fail fast                                                                                                                                                   | tagged subset of the above                                   |
-| Regression (`@regression`)             | The full suite for a feature area, run on every push/PR to `main`                                                                                                                                                                          | tagged subset of the above                                   |
+| Level                                  | What it covers                                                                                                                                                                                                                             | Where it lives                                                                   |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| E2E UI tests                           | Full user journeys through the real site, asserting on visible outcomes (basket contents, navigation, page transitions)                                                                                                                    | `tests/specs/purchase/**/*.spec.ts`                                              |
+| API precondition checks (`@api`)       | Fast, browser-less HTTP checks (via Playwright's `request` fixture) that key pages respond with a 2xx **before** the UI journeys run                                                                                                       | `tests/specs/setup/*.spec.ts`, runs in its own `api` project                     |
+| Reference/showcase specs (`@showcase`) | Self-contained demos of the Playwright building blocks used across the suite (locators, assertions, storage state, trace viewer, parallel execution, test-runner config) — written for onboarding/reference, not customer-journey coverage | `tests/specs/showcase/**/*.spec.ts`                                              |
+| Accessibility audit (`@a11y`)          | axe-core scans of key pages for serious/critical WCAG violations — non-blocking (see [§4](#4-tagging--execution-strategy)); findings tracked in [BUG_REPORTS.md](BUG_REPORTS.md)                                                           | `tests/specs/accessibility/*.spec.ts`                                            |
+| Cross-browser check                    | The purchase journey only, on Firefox/WebKit — non-blocking; selected by `--project`, not a tag (see [§4](#4-tagging--execution-strategy)); findings tracked in [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check)                 | `tests/specs/purchase/*.spec.ts` via `desktop-firefox`/`desktop-webkit` projects |
+| Smoke (`@smoke`)                       | The smallest set of tests that prove the core journey still works — run first, fail fast                                                                                                                                                   | tagged subset of the above                                                       |
+| Regression (`@regression`)             | The full suite for a feature area, run on every push/PR to `main`                                                                                                                                                                          | tagged subset of the above                                                       |
 
 Tests are **not** split by "unit/integration/E2E" within this repo — this repo _is_ the E2E layer. Granularity
 is instead expressed through tags (see [§4](#4-tagging--execution-strategy)) so the same suite can be run at
@@ -65,9 +66,10 @@ Execution is filtered with `--grep`:
 
 ```bash
 npm run test:smoke      # @smoke only — fast feedback
-npm test                # full suite, both desktop-chrome and mobile-chrome projects
+npm test                # full suite: api + desktop-chrome + mobile-chrome projects
 npx playwright test --grep "@purchase"
-npm run test:a11y       # accessibility audit — not part of npm test
+npm run test:a11y          # accessibility audit — not part of npm test
+npm run test:crossbrowser  # @purchase on Firefox + WebKit — not part of npm test
 ```
 
 Playwright **projects** (`desktop-chrome`, `mobile-chrome`) carry the viewport/device configuration, and each
@@ -75,17 +77,27 @@ project's `grep`/`grepInvert` ensures a desktop-tagged test only runs in the des
 mobile-tagged test only in the mobile project — avoiding duplicate, meaningless runs (e.g. a "mobile hamburger
 menu" scenario executing at 1920×1080).
 
+`desktop-firefox`/`desktop-webkit` are scoped differently: instead of a tag, `npm test` and CI's default
+regression run explicitly pass `--project=api --project=desktop-chrome --project=mobile-chrome`, so the
+cross-browser projects only run when named directly (`npm run test:firefox` / `test:webkit` / `test:crossbrowser`,
+or the non-blocking CI step). This was necessary because they reuse the same `@purchase`-tagged spec as
+`desktop-chrome` — a shared tag can't distinguish "run in CI by default" from "run on demand" the way it does
+for `@a11y`, which lives in its own untagged spec file.
+
 ## 5. Environments & coverage
 
 - **Target environment:** production (`https://www.dulux.co.uk`) — there is no dedicated staging environment
   available to this suite, so tests are written to be resilient to real content (fixed colour/shade names that
   are stable catalogue entries, not seasonal promotions).
-- **Browser:** Chromium only, via two device profiles:
+- **Browser:** Chromium is the default matrix, via two device profiles:
   - `desktop-chrome` — 1920×1080 viewport
   - `mobile-chrome` — Pixel 7 emulation
 
-  Firefox/WebKit are not currently part of the matrix; this can be extended by adding projects in
-  `playwright.config.ts` if cross-browser risk becomes material.
+  Firefox and WebKit exist as opt-in, non-blocking `desktop-firefox`/`desktop-webkit` projects covering the
+  purchase journey only (`npm run test:crossbrowser`). The first run
+  surfaced real behavioural differences from Chrome on production — see
+  [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check) — so they're not yet part of the default matrix
+  or CI gate.
 
 - **Network conditions:** default (no throttling). Not currently in scope.
 
@@ -143,6 +155,8 @@ GitHub Actions (`.github/workflows/e2e-tests.yml`) runs the suite:
   narrowed to `@smoke`, `@desktop`, etc.) for targeted re-runs;
 - always uploads the Playwright report and raw Allure results as build artifacts (kept 7 days) regardless of
   pass/fail, so failures are diagnosable without re-running locally;
+- also runs the `@a11y` audit and the Firefox/WebKit cross-browser check as separate, `continue-on-error: true`
+  steps — visible in every run's results without blocking the pipeline on findings outside this suite's control;
 - on `main`, additionally builds and publishes the Allure HTML report to GitHub Pages.
 
 Retries (`retries: 2` in CI) absorb transient flakiness from testing against a live, uncontrolled production
@@ -181,11 +195,14 @@ the site as broken and stopping further investigation until fixed.
 
 - Port the Visualizer App journey (`@visualizer`) from the original Java/Cucumber suite — it's referenced in
   this strategy as a known feature area but not yet implemented as Playwright specs.
-- Add a Firefox/WebKit project if cross-browser risk is identified as material.
 - Consider visual regression checks (e.g. `toHaveScreenshot`) for high-traffic landing/colour-selection pages.
 - Track flaky-test trends via Allure history once the suite has run enough times on `main` to build a baseline.
 - Promote `@a11y` into `@regression` once the findings in [BUG_REPORTS.md](BUG_REPORTS.md) are resolved
   upstream, so the accessibility audit becomes a real CI gate instead of an on-demand check.
+- Root-cause the Firefox/WebKit differences found in
+  [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check) (site behaviour vs. page-object assumptions built
+  for Chrome), fix what's in this suite's control, and promote `desktop-firefox`/`desktop-webkit` into the
+  default `npm test`/CI regression run once the purchase journey passes reliably on both.
 
 > The Playwright "building blocks" tour referenced in earlier drafts of this strategy — storage state, API
 > setup, locators & assertions, trace viewer, parallel execution, and test-runner config — is now complete,
