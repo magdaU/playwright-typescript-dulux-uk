@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-const QUANTITY_LABEL = 'Quantity';
+const QUANTITY_INPUT_LABEL = 'Quantity input';
 const BASKET_EMPTY_TEXT = 'Your basket is empty';
 
 export class CartPage extends BasePage {
@@ -14,7 +14,7 @@ export class CartPage extends BasePage {
   }
 
   getQuantity(): Locator {
-    return this.page.getByLabel(QUANTITY_LABEL);
+    return this.page.getByRole('spinbutton', { name: QUANTITY_INPUT_LABEL });
   }
 
   findText(text: string): Locator {

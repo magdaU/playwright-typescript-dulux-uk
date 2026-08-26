@@ -100,7 +100,7 @@ menu" scenario executing at 1920×1080).
 
 ## 7. Test data
 
-- Catalogue data (colour family "Violet", shade "Gentle Lavender", product name "Dulux Colour Tester") is
+- Catalogue data (colour family "Violet", shade "Sugared Lilac", product name "Dulux Colour Tester") is
   treated as **stable reference data** — chosen because it represents an evergreen part of the Dulux colour
   range rather than a seasonal/promotional item likely to disappear.
 - No user accounts, payment details or persisted state are required; each test starts from a clean
