@@ -9,3 +9,4 @@ playwright/.auth/
 screenshots/
 .idea/
 *.log
+LESSONS_LEARNED.md

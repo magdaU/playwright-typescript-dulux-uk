@@ -76,7 +76,7 @@ jobs:
           Browsers=Chromium (desktop-chrome 1920x1080, mobile-chrome Pixel 7 emulation)
           OS=${{ runner.os }}
           Branch=${{ github.ref_name }}
-          Commit=${{ github.sha }}
+          Commit=https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOF
 
           cat > allure-results/executor.json << EOF
