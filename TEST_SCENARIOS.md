@@ -13,10 +13,10 @@ implements it (where one exists). Priority follows the risk-based prioritisation
 
 ## Tester purchase journey
 
-| ID | Scenario | Priority |
-|---|---|---|
-| TC-PURCHASE-01 | Desktop customer finds a colour via the nav dropdown and buys a tester | Highest |
-| TC-PURCHASE-02 | Mobile customer finds the same journey via the hamburger menu | Highest |
+| ID             | Scenario                                                               | Priority |
+| -------------- | ---------------------------------------------------------------------- | -------- |
+| TC-PURCHASE-01 | Desktop customer finds a colour via the nav dropdown and buys a tester | Highest  |
+| TC-PURCHASE-02 | Mobile customer finds the same journey via the hamburger menu          | Highest  |
 
 **TC-PURCHASE-01 — Desktop: add a tester to the basket via the colour finder**
 Automated: `tests/specs/purchase/tester-product.spec.ts` · `@purchase @regression @smoke @desktop`
@@ -45,8 +45,8 @@ Automated: `tests/specs/purchase/tester-product.spec.ts` · `@mobile`
 
 ## API preconditions
 
-| ID | Scenario | Priority |
-|---|---|---|
+| ID        | Scenario                                                 | Priority              |
+| --------- | -------------------------------------------------------- | --------------------- |
 | TC-API-01 | Home page responds with a 2xx before the UI journey runs | High (fast-fail gate) |
 | TC-API-02 | Cart page responds with a 2xx before the UI journey runs | High (fast-fail gate) |
 
@@ -54,19 +54,33 @@ Automated: `tests/specs/setup/api-setup.spec.ts` · `@api @regression`, browser-
 fixture. These exist to fail fast and cheaply if the site itself is down, before spending time on a full browser
 journey that would fail for an uninteresting reason.
 
+## Accessibility audit
+
+| ID         | Scenario                                          | Priority           |
+| ---------- | ------------------------------------------------- | ------------------ |
+| TC-A11Y-01 | Home page has no serious/critical WCAG violations | Non-blocking audit |
+| TC-A11Y-02 | Cart page has no serious/critical WCAG violations | Non-blocking audit |
+
+Automated: `tests/specs/accessibility/a11y.spec.ts` · `@a11y @desktop` — axe-core scan via `@axe-core/playwright`,
+run on demand with `npm run test:a11y`. **Deliberately not tagged `@regression`:** the first run surfaced real,
+pre-existing production violations (missing `<html lang>`, invalid/prohibited ARIA attributes, missing image
+`alt` text, insufficient colour contrast) that are outside this suite's control to fix — see
+[BUG_REPORTS.md](BUG_REPORTS.md) for the full writeup. Only `serious`/`critical` impact violations fail the
+test; `minor`/`moderate` findings are attached to the report (`axe-results-*.json`) but don't fail it, since
+they're often cosmetic and would make an audit of third-party content noisy rather than actionable.
+
 ## Identified but not automated
 
 Scenarios that came up during test design and are deliberately out, with the reasoning — not gaps discovered by
 accident.
 
-| ID | Scenario | Status | Why |
-|---|---|---|---|
-| TC-VIS-01 | Desktop: opening the Visualizer App from a colour page opens it in a new tab | Not yet automated | `ColorSelectionPage.openVisualizerApp()` already exists as a page-object method; listed as a known future addition in [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements) |
-| TC-VIS-02 | Mobile: Visualizer App gracefully degrades to a support message instead of opening | Not yet automated | Same as above — ported from the original Java/Cucumber suite's coverage, not yet reimplemented here |
-| TC-CHECKOUT-01 | Completing checkout and receiving an order confirmation | Out of scope | Suite runs against **live production** — completing checkout would create a real order/charge (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope)) |
-| TC-VISUAL-01 | Pixel-level visual regression on colour-selection/landing pages | Out of scope | No visual-diff tooling wired in; screenshots are captured as evidence only, not compared (see [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements)) |
-| TC-A11Y-01 | Accessibility (a11y) audit of the purchase journey | Out of scope | No accessibility tooling (e.g. axe) in the suite yet; explicitly called out as out of scope in [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope) |
-| TC-XBROWSER-01 | Purchase journey on Firefox/WebKit | Out of scope | Chromium-only matrix currently; would need a new Playwright project per [TEST_STRATEGY §5](TEST_STRATEGY.md#5-environments--coverage) |
+| ID             | Scenario                                                                           | Status            | Why                                                                                                                                                                                |
+| -------------- | ---------------------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TC-VIS-01      | Desktop: opening the Visualizer App from a colour page opens it in a new tab       | Not yet automated | `ColorSelectionPage.openVisualizerApp()` already exists as a page-object method; listed as a known future addition in [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements) |
+| TC-VIS-02      | Mobile: Visualizer App gracefully degrades to a support message instead of opening | Not yet automated | Same as above — ported from the original Java/Cucumber suite's coverage, not yet reimplemented here                                                                                |
+| TC-CHECKOUT-01 | Completing checkout and receiving an order confirmation                            | Out of scope      | Suite runs against **live production** — completing checkout would create a real order/charge (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope))                                   |
+| TC-VISUAL-01   | Pixel-level visual regression on colour-selection/landing pages                    | Out of scope      | No visual-diff tooling wired in; screenshots are captured as evidence only, not compared (see [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements))                        |
+| TC-XBROWSER-01 | Purchase journey on Firefox/WebKit                                                 | Out of scope      | Chromium-only matrix currently; would need a new Playwright project per [TEST_STRATEGY §5](TEST_STRATEGY.md#5-environments--coverage)                                              |
 
 ## Reference / showcase specs
 

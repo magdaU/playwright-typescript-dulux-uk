@@ -1,5 +1,11 @@
 [
   {
+    "name": "Accessibility findings (known, non-blocking)",
+    "description": "An axe-core scan found a serious/critical WCAG violation on production — tracked in BUG_REPORTS.md, not a regression in this suite.",
+    "matchedStatuses": ["failed"],
+    "messageRegex": "(?s).*serious/critical violation.*"
+  },
+  {
     "name": "Product defects",
     "description": "A web-first assertion failed — the live site behaved differently than the journey expects (e.g. missing element, wrong basket contents).",
     "matchedStatuses": ["failed"],

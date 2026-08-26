@@ -9,6 +9,7 @@
     "test:desktop": "playwright test --project=desktop-chrome",
     "test:mobile": "playwright test --project=mobile-chrome",
     "test:api": "playwright test --project=api",
+    "test:a11y": "playwright test --grep @a11y",
     "test:trace": "playwright test --trace on",
     "report": "playwright show-report",
     "allure:categories": "node -e \"require('fs').mkdirSync('allure-results',{recursive:true});require('fs').copyFileSync('allure/categories.json','allure-results/categories.json')\"",
@@ -38,6 +39,7 @@
   },
   "homepage": "https://github.com/magdaU/playwright-typescript-dulux-uk#readme",
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.2",
