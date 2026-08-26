@@ -6,8 +6,9 @@ Playwright and TypeScript, covering UI journeys, API preconditions, CI/CD and au
 [![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
 
 See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope, tagging, environments, risk-based prioritisation, and CI/CD
-details, and [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the concrete scenarios behind the suite — including
-ones identified but deliberately not automated, and why.
+details, [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the concrete scenarios behind the suite — including ones
+identified but deliberately not automated, and why — and [BUG_REPORTS.md](BUG_REPORTS.md) for real defects
+found on production by the accessibility audit.
 
 ## Tech stack
 
@@ -28,9 +29,10 @@ tests/
 ├── constants.ts      # Shared values (BASE_URL, storage state path)
 ├── fixtures.ts       # Custom Playwright fixtures wiring page objects into tests
 └── specs/
-    ├── purchase/     # Tester-purchase journeys (UI, desktop + mobile)
-    ├── setup/        # API-level precondition checks (no browser needed)
-    └── showcase/     # Reference specs demonstrating locator/assertion strategies
+    ├── purchase/       # Tester-purchase journeys (UI, desktop + mobile)
+    ├── setup/          # API-level precondition checks (no browser needed)
+    ├── accessibility/  # axe-core WCAG scans (non-blocking audit, see BUG_REPORTS.md)
+    └── showcase/       # Reference specs demonstrating locator/assertion strategies
 ```
 
 ## Playwright projects
@@ -66,6 +68,7 @@ npm run test:smoke       # tests tagged @smoke
 npm run test:desktop     # desktop-chrome project only
 npm run test:mobile      # mobile-chrome project only
 npm run test:api         # API precondition checks only
+npm run test:a11y        # accessibility audit (non-blocking, not part of npm test)
 npm run test:trace       # force a full trace for every test
 npm run report           # open the last Playwright HTML report
 ```
@@ -91,6 +94,9 @@ Both run in CI on every push/PR alongside the test suite.
 - **Showcase specs** (`tests/specs/showcase/`, `@showcase`) — reference-only specs demonstrating locators &
   assertions, Trace Viewer & parallel execution, and test-runner config (timeouts, conditional skip, soft
   assertions, annotations).
+- **Accessibility audit** (`tests/specs/accessibility/`, `@a11y`) — axe-core scans of the home and cart pages
+  for serious/critical WCAG violations. Non-blocking: an initial run found real production defects, tracked in
+  [BUG_REPORTS.md](BUG_REPORTS.md) rather than failing CI indefinitely.
 
 ## Allure reporting
 
