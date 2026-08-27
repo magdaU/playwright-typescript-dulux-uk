@@ -11,6 +11,12 @@ identified but deliberately not automated, and why — [BUG_REPORTS.md](BUG_REPO
 production by the accessibility audit, and [KEY_FINDINGS.md](KEY_FINDINGS.md) for what running this suite has
 actually shown.
 
+[`docs/qa/`](docs/qa/) holds the formal QA documentation set: an ISTQB/IEEE 829-style
+[Test Plan](docs/qa/TEST_PLAN.md) and [Test Summary Report](docs/qa/TEST_SUMMARY_REPORT.md), a reusable
+[UAT sign-off template](docs/qa/UAT_TEMPLATE.md), and a feature-by-feature
+[QA Feature Guide](docs/qa/QA_FEATURE_GUIDE.md) for onboarding — see
+[docs/qa/README.md](docs/qa/README.md) for how to work with them (when each one changes, and how).
+
 ## Tech stack
 
 - [Playwright Test](https://playwright.dev/docs/intro) — test runner & browser automation
