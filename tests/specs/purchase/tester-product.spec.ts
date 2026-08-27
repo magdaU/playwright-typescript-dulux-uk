@@ -8,8 +8,11 @@ test.describe('Purchase a colour tester', { tag: ['@purchase', '@regression'] },
     'desktop customer adds a tester to the basket via the colour finder',
     { tag: ['@smoke', '@desktop'] },
     async ({ page, homePage, navigation, colorSelectionPage, cartPage, alert }) => {
-      // GIVEN — cookie consent is already handled via storageState (see tests/setup/global-setup.ts)
+      // GIVEN — cookie consent is already handled via storageState (see tests/setup/global-setup.ts).
+      // The basket itself is a real, shared server-side cart (see CartPage.emptyBasket), so it isn't
+      // guaranteed empty just from a fresh run — clear it before relying on that precondition.
       await cartPage.open();
+      await cartPage.emptyBasket();
       await expect(cartPage.getBasketEmptyText()).toBeVisible();
 
       // WHEN
@@ -35,8 +38,11 @@ test.describe('Purchase a colour tester', { tag: ['@purchase', '@regression'] },
     'mobile customer adds a tester to the basket via the hamburger menu',
     { tag: ['@mobile'] },
     async ({ page, homePage, navigation, colorSelectionPage, cartPage, alert }) => {
-      // GIVEN — cookie consent is already handled via storageState (see tests/setup/global-setup.ts)
+      // GIVEN — cookie consent is already handled via storageState (see tests/setup/global-setup.ts).
+      // The basket itself is a real, shared server-side cart (see CartPage.emptyBasket), so it isn't
+      // guaranteed empty just from a fresh run — clear it before relying on that precondition.
       await cartPage.open();
+      await cartPage.emptyBasket();
       await expect(cartPage.getBasketEmptyText()).toBeVisible();
 
       // WHEN
