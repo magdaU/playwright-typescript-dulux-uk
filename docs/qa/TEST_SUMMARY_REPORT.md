@@ -6,31 +6,27 @@ were produced.
 
 ## 1. Test summary report identifier
 
-`TSR-DULUX-E2E-2026-08-27-001` — covers the run executed 2026-08-27 against commit `e605b67` on `main`.
-Companion document: [TEST_PLAN.md](TEST_PLAN.md) (`TP-DULUX-E2E-001`).
+`TSR-DULUX-E2E-2026-08-27-002` — covers the run executed 2026-08-27 against commit `2eb603b` on `main`.
+Supersedes `TSR-DULUX-E2E-2026-08-27-001` (see §3 — that run's flagged variance is now fixed). Companion
+document: [TEST_PLAN.md](TEST_PLAN.md) (`TP-DULUX-E2E-001`).
 
 ## 2. Summary
 
-Scope executed: the default regression matrix (`api` + `desktop-chrome` + `mobile-chrome` projects, i.e.
-`npm test`) plus the `@a11y` audit, which — see §3 — ran as part of the same invocation rather than separately.
-Target: production `https://www.dulux.co.uk`. Full scope/approach: [TEST_PLAN.md](TEST_PLAN.md).
+Scope executed: `npm test` (`api` + `desktop-chrome` + `mobile-chrome` projects, now correctly scoped to
+`@regression` — see §3) and, separately, `npm run test:a11y`. Target: production `https://www.dulux.co.uk`.
+Full scope/approach: [TEST_PLAN.md](TEST_PLAN.md).
 
 ## 3. Variances
 
-Deviations from the documented plan, found while producing this report:
-
-- **`npm test` is not actually scoped to `@regression`.** [TEST_STRATEGY.md](../../TEST_STRATEGY.md) and the
-  README both state the `@a11y` audit is "non-blocking, not part of `npm test`". In practice, `package.json`'s
-  `test` script (`playwright test --project=api --project=desktop-chrome --project=mobile-chrome`) carries no
-  `--grep @regression`, and `desktop-chrome` in `playwright.config.ts` only excludes `@mobile`
-  (`grepInvert: /@mobile/`) — it doesn't exclude `@a11y`. So `tests/specs/accessibility/a11y.spec.ts` (tagged
-  `@a11y @desktop`, deliberately not `@regression`) executed as part of this run and its 2 known failures are
-  included in §5 below. **CI is unaffected** — the GitHub Actions workflow explicitly passes
-  `--grep "${{ ... || '@regression' }}"`, which correctly excludes `@a11y` from the blocking job and runs it as
-  a separate `continue-on-error: true` step. This is a local-script/documentation inconsistency, not a
-  pipeline defect; recommended fix is adding `--grep @regression` to the `test` script in `package.json`.
-- No other variance from the plan in [TEST_PLAN.md](TEST_PLAN.md) — entry criteria were met (site reachable,
-  lint/format clean) before this run.
+- **Resolved since the previous report:** `npm test` was not actually scoped to `@regression` —
+  `package.json`'s `test` script carried no `--grep @regression`, so `tests/specs/accessibility/a11y.spec.ts`
+  (tagged `@a11y @desktop`, deliberately not `@regression`) ran as part of a plain `npm test` and its 2 known
+  failures showed up there instead of only in the dedicated `npm run test:a11y` audit. Fixed by adding
+  `--grep @regression` to the `test` script — `npm test` now runs 14 tests (matching CI's
+  `--grep "@regression"` default) instead of 16. Verified via `npx playwright test --list` before and after
+  the change.
+- No other variance from the plan in [TEST_PLAN.md](TEST_PLAN.md) for this run — entry criteria were met (site
+  reachable, lint/format/types clean) before running.
 
 ## 4. Comprehensiveness assessment
 
@@ -43,22 +39,29 @@ report — its last-known result is carried from [TEST_SCENARIOS §Cross-browser
 
 ## 5. Summary of results
 
-**Regression matrix + a11y audit (`api` + `desktop-chrome` + `mobile-chrome`, this invocation includes `@a11y`
-per §3):** **16 tests run — 14 passed, 2 failed.**
+**`npm test` — regression matrix (`api` + `desktop-chrome` + `mobile-chrome`, `@regression`-scoped):**
+**14 tests run — 14 passed, 0 failed.**
 
-| Suite                                 | Tests | Result                                                                                                               |
-| ------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------- |
-| `@api` — precondition checks          | 2     | ✅ 2 passed                                                                                                          |
-| `@purchase` — desktop tester purchase | 1     | ✅ passed                                                                                                            |
-| `@purchase` — mobile tester purchase  | 1     | ✅ passed                                                                                                            |
-| `@showcase` — locators & assertions   | 4     | ✅ 4 passed                                                                                                          |
-| `@showcase` — test runner config      | 4     | ✅ 4 passed                                                                                                          |
-| `@showcase` — trace viewer & parallel | 2     | ✅ 2 passed                                                                                                          |
-| `@a11y` — home page                   | 1     | ❌ failed — 4 serious/critical violations (`aria-prohibited-attr`, `aria-valid-attr`, `color-contrast`, `image-alt`) |
-| `@a11y` — cart page                   | 1     | ❌ failed — 1 serious violation (`html-has-lang`)                                                                    |
+| Suite                                 | Tests | Result      |
+| ------------------------------------- | ----- | ----------- |
+| `@api` — precondition checks          | 2     | ✅ 2 passed |
+| `@purchase` — desktop tester purchase | 1     | ✅ passed   |
+| `@purchase` — mobile tester purchase  | 1     | ✅ passed   |
+| `@showcase` — locators & assertions   | 4     | ✅ 4 passed |
+| `@showcase` — test runner config      | 4     | ✅ 4 passed |
+| `@showcase` — trace viewer & parallel | 2     | ✅ 2 passed |
 
-Both `@a11y` failures are **known, pre-existing production defects**, not automation regressions — full
-reproduction steps and WCAG references are in [BUG_REPORTS.md](../../BUG_REPORTS.md) (BUG-001 through BUG-004).
+**`npm run test:a11y` — accessibility audit (non-blocking, run separately per §3's fix):**
+**2 tests run — 0 passed, 2 failed.**
+
+| Suite               | Tests | Result                                                                                                               |
+| ------------------- | ----- | -------------------------------------------------------------------------------------------------------------------- |
+| `@a11y` — home page | 1     | ❌ failed — 4 serious/critical violations (`aria-prohibited-attr`, `aria-valid-attr`, `color-contrast`, `image-alt`) |
+| `@a11y` — cart page | 1     | ❌ failed — 1 serious violation (`html-has-lang`)                                                                    |
+
+Both `@a11y` failures are **known, pre-existing production defects**, not automation regressions — same
+violations as the previous report, full reproduction steps and WCAG references are in
+[BUG_REPORTS.md](../../BUG_REPORTS.md) (BUG-001 through BUG-004).
 
 **Cross-browser check (`desktop-firefox`/`desktop-webkit`, carried from last recorded run, not re-executed for
 this report):** both fail before completing the purchase journey — Firefox times out on shade selection,
@@ -68,20 +71,21 @@ detail: [TEST_SCENARIOS §Cross-browser check](../../TEST_SCENARIOS.md#cross-bro
 
 ## 6. Evaluation
 
-The suite itself is healthy: every test covering functionality this project controls (purchase journey, API
-preconditions, showcase/reference specs) passed. The two failures are both pre-existing, documented production
-accessibility defects outside this suite's remit to fix (see [BUG_REPORTS.md](../../BUG_REPORTS.md)) — they do
-not indicate a regression in the automation or in the purchase journey's core functionality. **Recommendation:**
-safe to consider the core purchase journey release-ready; the accessibility findings should be routed to
-whoever owns dulux.co.uk's frontend, and the `npm test`/`@a11y` scoping variance in §3 should be fixed so local
-runs match the documented (and CI-actual) behaviour.
+The suite is healthy: `npm test` is now 14/14 passing and correctly scoped to `@regression`, matching CI. The
+`@a11y` audit's 2 failures are both pre-existing, documented production accessibility defects outside this
+suite's remit to fix (see [BUG_REPORTS.md](../../BUG_REPORTS.md)) — unchanged from the previous report, so no
+new regression. **Recommendation:** the core purchase journey remains release-ready; the accessibility findings
+should be routed to whoever owns dulux.co.uk's frontend. The `npm test`/`@a11y` scoping variance flagged in the
+previous report is now closed.
 
 ## 7. Summary of activities
 
-- Ran `npm test` (api + desktop-chrome + mobile-chrome projects) against production, 2026-08-27.
-- Reviewed the resulting Playwright report and axe-core violation attachments for the two `@a11y` failures,
-  cross-checked against previously logged findings in [BUG_REPORTS.md](../../BUG_REPORTS.md) — same violations,
-  no new ones.
+- Fixed the `npm test`/`@a11y` scoping variance flagged in the previous report (`TSR-...-001`): added
+  `--grep @regression` to the `test` script in `package.json`, verified with `playwright test --list`
+  (16 → 14 tests) before re-running.
+- Ran `npm test` (now `@regression`-scoped) against production, 2026-08-27 — 14/14 passed.
+- Ran `npm run test:a11y` separately — 2 failed, both matching previously logged findings in
+  [BUG_REPORTS.md](../../BUG_REPORTS.md), no new violations.
 - Cross-referenced cross-browser status against the existing record in
   [TEST_SCENARIOS.md](../../TEST_SCENARIOS.md) rather than re-running (out of scope for this report cycle).
 
