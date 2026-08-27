@@ -81,10 +81,9 @@ spending time on a full UI run.
   `npm run test:a11y`. **Deliberately not part of `npm run test:smoke`/`@regression`-gated CI** — see
   [TEST_STRATEGY §4](../../TEST_STRATEGY.md#4-tagging--execution-strategy) for why (real, pre-existing
   production violations outside this suite's control — see next point).
-  > ⚠️ It currently _does_ still run as part of the plain `npm test` script locally (a documented variance —
-  > see [TEST_SUMMARY_REPORT §3](TEST_SUMMARY_REPORT.md#3-variances)) even though it's excluded from CI's
-  > `@regression`-gated job. Don't be surprised if `npm test` shows 2 failures here; they're expected until
-  > that script is fixed or the underlying site defects are resolved.
+  `npm test` was previously not scoped to `@regression`, so it ran these too — fixed (see
+  [TEST_SUMMARY_REPORT §3](TEST_SUMMARY_REPORT.md#3-variances)); `npm test` now excludes `@a11y` and only
+  `npm run test:a11y` runs it, matching CI.
 - **Known, already-filed findings:** missing `<html lang>` (cart), invalid/prohibited ARIA attributes (home),
   images without alt text (home), insufficient colour contrast (home) — full repro steps in
   [BUG_REPORTS.md](../../BUG_REPORTS.md), BUG-001 through BUG-004. Don't re-file these; check there first.

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Playwright + TypeScript end-to-end tests for dulux.co.uk",
   "scripts": {
-    "test": "playwright test --project=api --project=desktop-chrome --project=mobile-chrome",
+    "test": "playwright test --grep @regression --project=api --project=desktop-chrome --project=mobile-chrome",
     "test:headed": "playwright test --headed",
     "test:smoke": "playwright test --grep @smoke",
     "test:desktop": "playwright test --project=desktop-chrome",
