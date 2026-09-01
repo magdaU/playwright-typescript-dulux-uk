@@ -17,17 +17,17 @@ See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope and CI details, [TEST_SCENARI
 
 ## 🧪 Test Coverage
 
-| Area                       | Coverage |
-| --------------------------- | -------- |
-| Tester purchase journey     | ✅        |
-| Desktop                     | ✅        |
-| Mobile                      | ✅        |
-| API preconditions           | ✅        |
-| Accessibility (axe-core)    | ✅        |
+| Area                           | Coverage       |
+| ------------------------------ | -------------- |
+| Tester purchase journey        | ✅             |
+| Desktop                        | ✅             |
+| Mobile                         | ✅             |
+| API preconditions              | ✅             |
+| Accessibility (axe-core)       | ✅             |
 | Cross-browser (Firefox/WebKit) | ✅ (on demand) |
-| Allure reporting            | ✅        |
-| Docker                      | ✅        |
-| GitHub Actions              | ✅        |
+| Allure reporting               | ✅             |
+| Docker                         | ✅             |
+| GitHub Actions                 | ✅             |
 
 ## 🏗️ Architecture
 
@@ -45,20 +45,20 @@ Dulux UK
 
 ### Design Patterns
 
-* Page Object Model
-* Component Objects (`NavigationComponent`, `AlertComponent`)
-* Base Page
-* Custom Playwright fixtures for dependency wiring
-* Web-first, auto-retrying assertions
-* Storage state reuse (cookie consent captured once per suite)
+- Page Object Model
+- Component Objects (`NavigationComponent`, `AlertComponent`)
+- Base Page
+- Custom Playwright fixtures for dependency wiring
+- Web-first, auto-retrying assertions
+- Storage state reuse (cookie consent captured once per suite)
 
 ## 📊 Reporting & CI/CD
 
-* Allure reporting, published to GitHub Pages on every push to `main`
-* Playwright HTML report
-* Screenshots + video on failure, trace on first retry
-* GitHub Actions
-* Dockerized test execution
+- Allure reporting, published to GitHub Pages on every push to `main`
+- Playwright HTML report
+- Screenshots + video on failure, trace on first retry
+- GitHub Actions
+- Dockerized test execution
 
 ## ▶️ Run Tests
 
@@ -91,18 +91,18 @@ More commands (mobile/API/a11y/cross-browser/trace/lint) are in [TEST_STRATEGY.m
 
 ## 📚 Documentation
 
-* [Test Strategy](TEST_STRATEGY.md)
-* [Test Scenarios](TEST_SCENARIOS.md)
-* [Bug Reports](BUG_REPORTS.md)
-* [Key Findings](KEY_FINDINGS.md)
-* [QA docs (Test Plan, UAT, Feature Guide)](docs/qa/README.md)
+- [Test Strategy](TEST_STRATEGY.md)
+- [Test Scenarios](TEST_SCENARIOS.md)
+- [Bug Reports](BUG_REPORTS.md)
+- [Key Findings](KEY_FINDINGS.md)
+- [QA docs (Test Plan, UAT, Feature Guide)](docs/qa/README.md)
 
 ## 🚀 Future Improvements
 
-* Full cross-browser suite once Firefox/WebKit behavioural differences are root-caused
-* Visual regression testing
-* Parallel sharding in CI
-* Improved test-data management
-* AI-assisted test analysis
+- Full cross-browser suite once Firefox/WebKit behavioural differences are root-caused
+- Visual regression testing
+- Parallel sharding in CI
+- Improved test-data management
+- AI-assisted test analysis
 
 > Portfolio project demonstrating TypeScript-based UI automation and modern QA engineering practices.
