@@ -1,147 +1,108 @@
-# Dulux E2E Tests — Playwright + TypeScript
+# 🎭 Playwright TypeScript — Dulux UK E2E Automation
 
-QA automation portfolio project: an E2E test suite for [dulux.co.uk](https://www.dulux.co.uk) built with
-Playwright and TypeScript, covering UI journeys, API preconditions, CI/CD and automated Allure reporting.
+### TypeScript · Playwright · Allure · Docker · CI/CD
 
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Playwright](https://img.shields.io/badge/Playwright-green)](https://playwright.dev/)
+[![Allure](https://img.shields.io/badge/Allure-reporting-orange)](https://allurereport.org/)
 [![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
 
-See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope, tagging, environments, risk-based prioritisation, and CI/CD
-details, [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the concrete scenarios behind the suite — including ones
-identified but deliberately not automated, and why — [BUG_REPORTS.md](BUG_REPORTS.md) for real defects found on
-production by the accessibility audit, and [KEY_FINDINGS.md](KEY_FINDINGS.md) for what running this suite has
-actually shown.
+## 📌 Overview
 
-[`docs/qa/`](docs/qa/) holds the formal QA documentation set: an ISTQB/IEEE 829-style
-[Test Plan](docs/qa/TEST_PLAN.md) and [Test Summary Report](docs/qa/TEST_SUMMARY_REPORT.md), a reusable
-[UAT sign-off template](docs/qa/UAT_TEMPLATE.md), and a feature-by-feature
-[QA Feature Guide](docs/qa/QA_FEATURE_GUIDE.md) for onboarding — see
-[docs/qa/README.md](docs/qa/README.md) for how to work with them (when each one changes, and how).
+A TypeScript end-to-end UI automation suite built with Playwright for selected [dulux.co.uk](https://www.dulux.co.uk) customer journeys.
 
-## Tech stack
+Demonstrates maintainable test automation using **Page Object Model, custom fixtures, API preconditions, accessibility auditing, reporting and CI/CD**.
 
-- [Playwright Test](https://playwright.dev/docs/intro) — test runner & browser automation
-- TypeScript
-- Page Object Model
-- [Allure Report](https://allurereport.org/) — test reporting (`allure-playwright`, `allure-commandline`)
-- GitHub Actions + GitHub Pages — CI and published Allure reports
-- [Docker](https://www.docker.com/) — containerised suite ([`Dockerfile`](Dockerfile), based on `mcr.microsoft.com/playwright`)
+See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope and CI details, [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the scenarios behind the suite, [BUG_REPORTS.md](BUG_REPORTS.md) for real production defects found, [KEY_FINDINGS.md](KEY_FINDINGS.md) for what running the suite has shown, and [`docs/qa/`](docs/qa/) for the formal ISTQB/IEEE 829-style QA documentation set.
 
-## Project structure
+## 🧪 Test Coverage
 
+| Area                       | Coverage |
+| --------------------------- | -------- |
+| Tester purchase journey     | ✅        |
+| Desktop                     | ✅        |
+| Mobile                      | ✅        |
+| API preconditions           | ✅        |
+| Accessibility (axe-core)    | ✅        |
+| Cross-browser (Firefox/WebKit) | ✅ (on demand) |
+| Allure reporting            | ✅        |
+| Docker                      | ✅        |
+| GitHub Actions              | ✅        |
+
+## 🏗️ Architecture
+
+```text
+Playwright Test
+       ↓
+Custom Fixtures
+       ↓
+Page Objects + Components
+       ↓
+Playwright
+       ↓
+Dulux UK
 ```
-tests/
-├── pages/            # Page objects (HomePage, ColorSelectionPage, CartPage, ...)
-├── components/       # Shared UI components (NavigationComponent, AlertComponent)
-├── setup/            # Global setup (captures storageState once for the whole suite)
-├── constants.ts      # Shared values (BASE_URL, storage state path)
-├── fixtures.ts       # Custom Playwright fixtures wiring page objects into tests
-└── specs/
-    ├── purchase/       # Tester-purchase journeys (UI, desktop + mobile)
-    ├── setup/          # API-level precondition checks (no browser needed)
-    ├── accessibility/  # axe-core WCAG scans (non-blocking audit, see BUG_REPORTS.md)
-    └── showcase/       # Reference specs demonstrating locator/assertion strategies
-```
 
-## Playwright projects
+### Design Patterns
 
-`playwright.config.ts` splits the suite into projects, each scoped to a different concern:
+* Page Object Model
+* Component Objects (`NavigationComponent`, `AlertComponent`)
+* Base Page
+* Custom Playwright fixtures for dependency wiring
+* Web-first, auto-retrying assertions
+* Storage state reuse (cookie consent captured once per suite)
 
-| Project           | Purpose                                                                                               | In default `npm test` / CI regression? |
-| ----------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `api`             | Browser-less HTTP checks confirming key pages respond before the UI suite runs                        | Yes                                    |
-| `desktop-chrome`  | Full UI journeys at a 1920×1080 desktop viewport                                                      | Yes                                    |
-| `mobile-chrome`   | The same UI journeys adapted for mobile (e.g. hamburger menu instead of top nav), emulating a Pixel 7 | Yes                                    |
-| `desktop-firefox` | Cross-browser check of the highest-risk journey (`@purchase`) only, at 1920×1080                      | No — on demand, `npm run test:firefox` |
-| `desktop-webkit`  | Same as above, WebKit                                                                                 | No — on demand, `npm run test:webkit`  |
+## 📊 Reporting & CI/CD
 
-The Firefox/WebKit projects were added deliberately narrow in scope (purchase journey only, not the full
-desktop-chrome matrix) and kept out of the default run: the first run surfaced real behavioural differences from
-Chrome on production (navigation and shade-selection didn't reach the same state) that need investigation before
-this becomes a CI gate. See [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check).
+* Allure reporting, published to GitHub Pages on every push to `main`
+* Playwright HTML report
+* Screenshots + video on failure, trace on first retry
+* GitHub Actions
+* Dockerized test execution
 
-## Getting started
+## ▶️ Run Tests
+
+### Local
 
 ```bash
 npm install
-npx playwright install --with-deps chromium         # add firefox webkit for the cross-browser check
+npx playwright install --with-deps chromium
+npm test
 ```
 
-Or run everything in Docker, with no local Node/browser setup:
+### Smoke
+
+```bash
+npm run test:smoke
+```
+
+### Docker
 
 ```bash
 docker build -t dulux-e2e .
 docker run --rm dulux-e2e
 ```
 
-## Running tests
+More commands (mobile/API/a11y/cross-browser/trace/lint) are in [TEST_STRATEGY.md](TEST_STRATEGY.md).
 
-```bash
-npm test                 # full suite (api + desktop + mobile projects)
-npm run test:headed      # run with a visible browser
-npm run test:smoke       # tests tagged @smoke
-npm run test:desktop     # desktop-chrome project only
-npm run test:mobile      # mobile-chrome project only
-npm run test:api         # API precondition checks only
-npm run test:a11y        # accessibility audit (non-blocking, not part of npm test)
-npm run test:crossbrowser # @purchase on Firefox + WebKit (non-blocking, not part of npm test)
-npm run test:trace       # force a full trace for every test
-npm run report           # open the last Playwright HTML report
-```
+## 🧰 Tech Stack
 
-## Code quality
+**TypeScript · Playwright Test · ESLint · Prettier · Allure · Docker · GitHub Actions**
 
-```bash
-npm run lint             # ESLint (TypeScript + eslint-plugin-playwright rules)
-npm run lint:fix         # ESLint with autofix
-npm run format           # Prettier — write
-npm run format:check     # Prettier — check only (used in CI)
-```
+## 📚 Documentation
 
-Both run in CI on every push/PR alongside the test suite.
+* [Test Strategy](TEST_STRATEGY.md)
+* [Test Scenarios](TEST_SCENARIOS.md)
+* [Bug Reports](BUG_REPORTS.md)
+* [Key Findings](KEY_FINDINGS.md)
+* [QA docs (Test Plan, UAT, Feature Guide)](docs/qa/README.md)
 
-## Test coverage
+## 🚀 Future Improvements
 
-- **Tester purchase journey** (`tests/specs/purchase/tester-product.spec.ts`, `@purchase @regression`, smoke-tagged
-  on desktop) — find a colour, choose a shade, buy a tester, and verify it lands in the basket. Runs on both
-  desktop and mobile, differing only in navigation entry point.
-- **API preconditions** (`tests/specs/setup/`, `@api`) — confirms the home and cart pages respond before the UI
-  journey runs.
-- **Showcase specs** (`tests/specs/showcase/`, `@showcase`) — reference-only specs demonstrating locators &
-  assertions, Trace Viewer & parallel execution, and test-runner config (timeouts, conditional skip, soft
-  assertions, annotations).
-- **Accessibility audit** (`tests/specs/accessibility/`, `@a11y`) — axe-core scans of the home and cart pages
-  for serious/critical WCAG violations. Non-blocking: an initial run found real production defects, tracked in
-  [BUG_REPORTS.md](BUG_REPORTS.md) rather than failing CI indefinitely.
-- **Cross-browser check** (`desktop-firefox`/`desktop-webkit` projects, `@purchase`) — the purchase journey only,
-  run on demand. Non-blocking for the same reason as the a11y audit: the first run found real behavioural
-  differences from Chrome, not yet root-caused (see [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check)).
+* Full cross-browser suite once Firefox/WebKit behavioural differences are root-caused
+* Visual regression testing
+* Parallel sharding in CI
+* Improved test-data management
+* AI-assisted test analysis
 
-## Allure reporting
-
-Every push to `main` runs the suite in CI and publishes the Allure report to GitHub Pages (link above), enriched
-with history/trend, environment and executor info, and a defect-category taxonomy (see
-[`.github/workflows/e2e-tests.yml`](.github/workflows/e2e-tests.yml)).
-
-To generate and view the same report locally:
-
-```bash
-npm test
-npm run allure:generate
-npm run allure:open      # or: npm run allure:serve
-```
-
-Trends, Environment and Executors widgets are populated only in CI, where the previous report's history and the
-build context (branch, commit, run URL) are available.
-
-## Playwright concepts — where they're used
-
-| Concept                | Where it's applied                                                                                                                                                       |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Test runner config** | `playwright.config.ts`; per-test knobs (`setTimeout`, `test.skip`, `expect.soft`, annotations) in `tests/specs/showcase/test-runner-config.spec.ts`                      |
-| **Browser contexts**   | `tests/fixtures.ts` (isolated `page` per test); `desktop-chrome`/`mobile-chrome`/`desktop-firefox`/`desktop-webkit` projects carry distinct viewports/engines            |
-| **Storage state**      | `tests/setup/global-setup.ts` accepts cookie consent once, persisted to `playwright/.auth/storage-state.json`                                                            |
-| **API testing**        | `tests/specs/setup/api-setup.spec.ts` — `request` fixture, no browser                                                                                                    |
-| **Locators**           | `tests/pages/*.ts`, `tests/components/*.ts` — role/text-first (`getByRole`, `getByText`), showcased in `locators-and-assertions.spec.ts`                                 |
-| **Assertions**         | Web-first, auto-retrying: `toBeVisible`, `toHaveValue`, `toHaveCount`, `toHaveURL`, `toHaveTitle`                                                                        |
-| **Trace Viewer**       | `trace: 'on-first-retry'` in config; forced per-file in `trace-and-parallel.spec.ts` (`test.use({ trace: 'on' })`)                                                       |
-| **Parallel execution** | `fullyParallel: true`; `test.describe.configure({ mode: 'parallel' })` in `trace-and-parallel.spec.ts`; `api`/`desktop-chrome`/`mobile-chrome` projects run side by side |
+> Portfolio project demonstrating TypeScript-based UI automation and modern QA engineering practices.

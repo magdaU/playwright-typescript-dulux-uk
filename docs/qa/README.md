@@ -1,4 +1,4 @@
-# QA Documentation — how to work with this folder
+# 📋 QA Documentation — how to work with this folder
 
 This folder holds the formal QA documentation set for the Dulux E2E suite. This page is the folder's entry
 point: what's here, who touches what, when, and how a change to any of these documents actually flows through
