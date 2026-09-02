@@ -1,0 +1,637 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: purchase/tester-product.spec.ts >> Purchase a colour tester >> desktop customer adds a tester to the basket via the colour finder
+- Location: tests/specs/purchase/tester-product.spec.ts:7:7
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Buy a Tester in this colour' })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#app"
+  - paragraph [ref=e8] [cursor=pointer]: ✕
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - navigation [ref=e13]:
+        - generic [ref=e15]:
+          - link "Logo" [ref=e17] [cursor=pointer]:
+            - /url: https://www.dulux.co.uk/en
+            - img "Brand Logo" [ref=e19]
+          - generic [ref=e20]:
+            - list [ref=e23]:
+              - listitem [ref=e24] [cursor=pointer]:
+                - button "Find a colour" [ref=e25]:
+                  - generic [ref=e26]: Find a colour
+                  - img [ref=e28]
+              - listitem [ref=e30] [cursor=pointer]:
+                - button "Choose a product" [ref=e31]:
+                  - generic [ref=e32]: Choose a product
+                  - img [ref=e34]
+              - listitem [ref=e36] [cursor=pointer]:
+                - button "Ideas" [ref=e37]:
+                  - generic [ref=e38]: Ideas
+                  - img [ref=e40]
+              - listitem [ref=e42] [cursor=pointer]:
+                - button "Help & tools" [ref=e43]:
+                  - generic [ref=e44]: Help & tools
+                  - img [ref=e46]
+              - listitem [ref=e48] [cursor=pointer]:
+                - link "Sustainability" [ref=e49]:
+                  - /url: /en/sustainability
+                  - generic [ref=e50]: Sustainability
+              - listitem [ref=e51] [cursor=pointer]:
+                - link "Find a store" [ref=e52]:
+                  - /url: /en/storefinder
+                  - generic [ref=e53]: Find a store
+            - list [ref=e55]:
+              - listitem [ref=e56] [cursor=pointer]:
+                - button "Search" [ref=e57]:
+                  - img [ref=e59]
+              - listitem [ref=e61] [cursor=pointer]:
+                - link "Shopping Cart" [ref=e62]:
+                  - /url: /en/store/cart
+                  - img [ref=e64]
+              - listitem [ref=e66] [cursor=pointer]:
+                - button "User Icon" [ref=e67]:
+                  - button "User Icon" [ref=e68]:
+                    - img [ref=e69]
+      - generic [ref=e76]:
+        - generic [ref=e79]:
+          - generic [ref=e81]:
+            - heading "Pick your colour palette" [level=3] [ref=e85]
+            - generic [ref=e86]:
+              - button "White" [ref=e87] [cursor=pointer]:
+                - generic [ref=e88]:
+                  - generic:
+                    - paragraph
+              - button "Red" [ref=e89] [cursor=pointer]:
+                - generic [ref=e90]:
+                  - generic:
+                    - paragraph
+              - button "Orange" [ref=e91] [cursor=pointer]:
+                - generic [ref=e92]:
+                  - generic:
+                    - paragraph
+              - button "Gold" [ref=e93] [cursor=pointer]:
+                - generic [ref=e94]:
+                  - generic:
+                    - paragraph
+              - button "Yellow" [ref=e95] [cursor=pointer]:
+                - generic [ref=e96]:
+                  - generic:
+                    - paragraph
+              - button "Lime" [ref=e97] [cursor=pointer]:
+                - generic [ref=e98]:
+                  - generic:
+                    - paragraph
+              - button "Green" [ref=e99] [cursor=pointer]:
+                - generic [ref=e100]:
+                  - generic:
+                    - paragraph
+              - button "Teal" [ref=e101] [cursor=pointer]:
+                - generic [ref=e102]:
+                  - generic:
+                    - paragraph
+              - button "Blue" [ref=e103] [cursor=pointer]:
+                - generic [ref=e104]:
+                  - generic:
+                    - paragraph
+              - button "Violet" [ref=e105] [cursor=pointer]:
+                - generic [ref=e106]:
+                  - img [ref=e108]
+                  - generic:
+                    - paragraph
+              - button "Cool Neutral" [ref=e110] [cursor=pointer]:
+                - generic [ref=e111]:
+                  - generic:
+                    - paragraph
+              - button "Warm Neutral" [ref=e112] [cursor=pointer]:
+                - generic [ref=e113]:
+                  - generic:
+                    - paragraph
+          - generic [ref=e118]:
+            - generic [ref=e120]:
+              - button "Location 0" [ref=e121] [cursor=pointer]:
+                - text: Location
+                - img [ref=e123]
+                - generic: "0"
+              - generic [ref=e126]:
+                - generic [ref=e129] [cursor=pointer]:
+                  - generic [ref=e130]: All
+                  - radio [checked] [ref=e131]
+                - generic [ref=e135] [cursor=pointer]:
+                  - generic [ref=e136]: Bathroom
+                  - radio [ref=e137]
+                - generic [ref=e141] [cursor=pointer]:
+                  - generic [ref=e142]: Bedroom
+                  - radio [ref=e143]
+                - generic [ref=e147] [cursor=pointer]:
+                  - generic [ref=e148]: Children's room
+                  - radio [ref=e149]
+                - generic [ref=e153] [cursor=pointer]:
+                  - generic [ref=e154]: Dining room
+                  - radio [ref=e155]
+                - generic [ref=e159] [cursor=pointer]:
+                  - generic [ref=e160]: Hallway
+                  - radio [ref=e161]
+                - generic [ref=e165] [cursor=pointer]:
+                  - generic [ref=e166]: Home office
+                  - radio [ref=e167]
+                - generic [ref=e171] [cursor=pointer]:
+                  - generic [ref=e172]: Kitchen
+                  - radio [ref=e173]
+                - generic [ref=e177] [cursor=pointer]:
+                  - generic [ref=e178]: Living room
+                  - radio [ref=e179]
+            - generic [ref=e182]:
+              - button "Surface 0" [ref=e183] [cursor=pointer]:
+                - text: Surface
+                - img [ref=e185]
+                - generic: "0"
+              - generic:
+                - button "Confirm" [ref=e188] [cursor=pointer]:
+                  - generic [ref=e189]: Confirm
+                - generic [ref=e191]:
+                  - generic [ref=e194] [cursor=pointer]:
+                    - checkbox [ref=e195]
+                    - generic [ref=e196]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e197]: Ceilings
+                  - generic [ref=e200] [cursor=pointer]:
+                    - checkbox [ref=e201]
+                    - generic [ref=e202]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e203]: Cupboards
+                  - generic [ref=e206] [cursor=pointer]:
+                    - checkbox [ref=e207]
+                    - generic [ref=e208]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e209]: Door frames
+                  - generic [ref=e212] [cursor=pointer]:
+                    - checkbox [ref=e213]
+                    - generic [ref=e214]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e215]: Doors
+                  - generic [ref=e218] [cursor=pointer]:
+                    - checkbox [ref=e219]
+                    - generic [ref=e220]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e221]: Entrance doors
+                  - generic [ref=e224] [cursor=pointer]:
+                    - checkbox [ref=e225]
+                    - generic [ref=e226]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e227]: Furniture
+                  - generic [ref=e230] [cursor=pointer]:
+                    - checkbox [ref=e231]
+                    - generic [ref=e232]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e233]: Garage doors
+                  - generic [ref=e236] [cursor=pointer]:
+                    - checkbox [ref=e237]
+                    - generic [ref=e238]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e239]: Masonry
+                  - generic [ref=e242] [cursor=pointer]:
+                    - checkbox [ref=e243]
+                    - generic [ref=e244]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e245]: MDF
+                  - generic [ref=e248] [cursor=pointer]:
+                    - checkbox [ref=e249]
+                    - generic [ref=e250]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e251]: Melamine
+                  - generic [ref=e254] [cursor=pointer]:
+                    - checkbox [ref=e255]
+                    - generic [ref=e256]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e257]: Metal
+                  - generic [ref=e260] [cursor=pointer]:
+                    - checkbox [ref=e261]
+                    - generic [ref=e262]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e263]: Skirting boards
+                  - generic [ref=e266] [cursor=pointer]:
+                    - checkbox [ref=e267]
+                    - generic [ref=e268]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e269]: Tiles
+                  - generic [ref=e272] [cursor=pointer]:
+                    - checkbox [ref=e273]
+                    - generic [ref=e274]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e275]: uPVC
+                  - generic [ref=e278] [cursor=pointer]:
+                    - checkbox [ref=e279]
+                    - generic [ref=e280]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e281]: Walls
+                  - generic [ref=e284] [cursor=pointer]:
+                    - checkbox [ref=e285]
+                    - generic [ref=e286]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e287]: Window frames
+                  - generic [ref=e290] [cursor=pointer]:
+                    - checkbox [ref=e291]
+                    - generic [ref=e292]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e293]: Windows
+                  - generic [ref=e296] [cursor=pointer]:
+                    - checkbox [ref=e297]
+                    - generic [ref=e298]:
+                      - generic:
+                        - generic:
+                          - img
+                    - generic [ref=e299]: Wood
+            - generic [ref=e301]:
+              - button "Finish 0" [ref=e302] [cursor=pointer]:
+                - text: Finish
+                - img [ref=e304]
+                - generic: "0"
+              - generic [ref=e307]:
+                - generic [ref=e310] [cursor=pointer]:
+                  - generic [ref=e311]: All
+                  - radio [checked] [ref=e312]
+                - generic [ref=e316] [cursor=pointer]:
+                  - generic [ref=e317]: Eggshell
+                  - radio [ref=e318]
+                - generic [ref=e322] [cursor=pointer]:
+                  - generic [ref=e323]: Flat Matt
+                  - radio [ref=e324]
+                - generic [ref=e328] [cursor=pointer]:
+                  - generic [ref=e329]: Gloss
+                  - radio [ref=e330]
+                - generic [ref=e334] [cursor=pointer]:
+                  - generic [ref=e335]: Matt
+                  - radio [ref=e336]
+                - generic [ref=e340] [cursor=pointer]:
+                  - generic [ref=e341]: Satin
+                  - radio [ref=e342]
+                - generic [ref=e346] [cursor=pointer]:
+                  - generic [ref=e347]: Silk
+                  - radio [ref=e348]
+                - generic [ref=e352] [cursor=pointer]:
+                  - generic [ref=e353]: Smooth
+                  - radio [ref=e354]
+                - generic [ref=e358] [cursor=pointer]:
+                  - generic [ref=e359]: Soft Sheen
+                  - radio [ref=e360]
+                - generic [ref=e364] [cursor=pointer]:
+                  - generic [ref=e365]: Textured
+                  - radio [ref=e366]
+        - generic [ref=e370]:
+          - generic [ref=e371]:
+            - heading "Violet" [level=2] [ref=e374]
+            - link "See all colours (253)" [ref=e375] [cursor=pointer]:
+              - /url: /en/colour-details/filters/h_Violet?showAllColors=true#tabId=item0
+              - generic [ref=e376]: See all colours (253)
+          - generic [ref=e380]:
+            - generic [ref=e382]:
+              - button "Cotton Breeze" [ref=e383] [cursor=pointer]:
+                - generic [ref=e385]: Cotton Breeze
+              - button "Add to workspace" [ref=e386] [cursor=pointer]:
+                - img [ref=e388]
+            - generic [ref=e391]:
+              - button "Scent Bottle" [ref=e392] [cursor=pointer]:
+                - generic [ref=e394]: Scent Bottle
+              - button "Add to workspace" [ref=e395] [cursor=pointer]:
+                - img [ref=e397]
+            - generic [ref=e400]:
+              - button "Violet Morning" [ref=e401] [cursor=pointer]:
+                - generic [ref=e403]: Violet Morning
+              - button "Add to workspace" [ref=e404] [cursor=pointer]:
+                - img [ref=e406]
+            - generic [ref=e409]:
+              - button "Romantic Reverie" [ref=e410] [cursor=pointer]:
+                - generic [ref=e412]: Romantic Reverie
+              - button "Add to workspace" [ref=e413] [cursor=pointer]:
+                - img [ref=e415]
+            - generic [ref=e418]:
+              - button "Sugared Lilac" [active] [ref=e419] [cursor=pointer]:
+                - generic [ref=e421]: Sugared Lilac
+              - button "Add to workspace" [ref=e422] [cursor=pointer]:
+                - img [ref=e424]
+            - generic [ref=e427]:
+              - button "Lilac Fancy" [ref=e428] [cursor=pointer]:
+                - generic [ref=e430]: Lilac Fancy
+              - button "Add to workspace" [ref=e431] [cursor=pointer]:
+                - img [ref=e433]
+            - generic [ref=e436]:
+              - button "Close" [ref=e438] [cursor=pointer]:
+                - img [ref=e440]
+              - generic [ref=e442]:
+                - link "Sugared Lilac Add to workspace" [ref=e445] [cursor=pointer]:
+                  - /url: /en/colour-details/sugared-lilac
+                  - heading "Sugared Lilac" [level=2] [ref=e447]:
+                    - generic [ref=e448]:
+                      - text: Sugared Lilac
+                      - img [ref=e450]
+                  - button "Add to workspace" [ref=e452]:
+                    - img "Add to space" [ref=e453]:
+                      - img [ref=e454]
+                - generic [ref=e457]:
+                  - generic [ref=e458]:
+                    - paragraph [ref=e460]: Find Products in this colour
+                    - link "Go" [ref=e461] [cursor=pointer]:
+                      - /url: /en/products/filters/h_Violet/cccId_1915169
+                      - generic [ref=e462]: Go
+                  - separator [ref=e463]
+                  - list [ref=e464]:
+                    - listitem [ref=e465]:
+                      - generic [ref=e467]:
+                        - paragraph [ref=e468]: Try our Visualizer App
+                        - paragraph [ref=e469]: Discover More
+                      - link "Try our Visualizer App" [ref=e470] [cursor=pointer]:
+                        - /url: /content/akzonobel-flourish/dulux/gb/en/articles/dulux-visualizer-app.html
+                        - img [ref=e472]
+            - generic [ref=e475]:
+              - button "Violet Storm" [ref=e476] [cursor=pointer]:
+                - generic [ref=e478]: Violet Storm
+              - button "Add to workspace" [ref=e479] [cursor=pointer]:
+                - img [ref=e481]
+            - generic [ref=e484]:
+              - button "Pressed Thistle" [ref=e485] [cursor=pointer]:
+                - generic [ref=e487]: Pressed Thistle
+              - button "Add to workspace" [ref=e488] [cursor=pointer]:
+                - img [ref=e490]
+            - generic [ref=e493]:
+              - button "Amethyst Starling" [ref=e494] [cursor=pointer]:
+                - generic [ref=e496]: Amethyst Starling
+              - button "Add to workspace" [ref=e497] [cursor=pointer]:
+                - img [ref=e499]
+            - generic [ref=e502]:
+              - button "Heather Climb" [ref=e503] [cursor=pointer]:
+                - generic [ref=e505]: Heather Climb
+              - button "Add to workspace" [ref=e506] [cursor=pointer]:
+                - img [ref=e508]
+            - generic [ref=e511]:
+              - button "Royal Berry" [ref=e512] [cursor=pointer]:
+                - generic [ref=e514]: Royal Berry
+              - button "Add to workspace" [ref=e515] [cursor=pointer]:
+                - img [ref=e517]
+            - generic [ref=e520]:
+              - button "Deep Aubergine" [ref=e521] [cursor=pointer]:
+                - generic [ref=e523]: Deep Aubergine
+              - button "Add to workspace" [ref=e524] [cursor=pointer]:
+                - img [ref=e526]
+          - generic [ref=e529]:
+            - heading "I can't find the right colour" [level=3] [ref=e532]
+            - link "See all colours (253)" [ref=e533] [cursor=pointer]:
+              - /url: /en/colour-details/filters/h_Violet?showAllColors=true#tabId=item0
+              - generic [ref=e534]: See all colours (253)
+      - generic [ref=e538]:
+        - img [ref=e540]
+        - generic [ref=e545]: Join our newsletter
+        - text: Discover decorating trends and ideas in our new monthly newsletter.
+        - generic [ref=e546]:
+          - generic:
+            - text: "If you are human, leave this field blank:"
+            - textbox "If you are human, leave this field blank:" [ref=e547]
+          - group [ref=e548]:
+            - generic [ref=e550]:
+              - text: enter-your-email
+              - textbox "enter-your-email" [ref=e552]:
+                - /placeholder: Email address
+      - generic [ref=e555]:
+        - generic [ref=e557]:
+          - generic [ref=e558]: Easy and safe payment
+          - img "Paypal" [ref=e560]
+          - img "visa" [ref=e562]
+          - img "master card" [ref=e564]
+          - img "maestro" [ref=e566]
+          - img "ideal" [ref=e568]
+          - img "cb" [ref=e570]
+          - img "klarna" [ref=e572]
+        - generic [ref=e574]:
+          - generic [ref=e575]: Follow us
+          - link "Follow us" [ref=e576] [cursor=pointer]:
+            - /url: https://www.facebook.com/dulux
+            - img [ref=e578]
+          - link "Follow us" [ref=e580] [cursor=pointer]:
+            - /url: https://www.instagram.com/duluxuk/?hl=en
+            - img [ref=e582]
+          - link "Follow us" [ref=e585] [cursor=pointer]:
+            - /url: https://www.pinterest.co.uk/duluxuk/
+            - img [ref=e587]
+          - link "Follow us" [ref=e589] [cursor=pointer]:
+            - /url: https://twitter.com/duluxuk
+            - img [ref=e591]
+          - link "Follow us" [ref=e593] [cursor=pointer]:
+            - /url: https://www.youtube.com/user/DuluxUK
+            - img [ref=e595]
+          - link "Follow us" [ref=e597] [cursor=pointer]:
+            - /url: https://anchor.fm/lets-colour
+            - img [ref=e599]
+      - generic [ref=e604]:
+        - list [ref=e610]:
+          - listitem [ref=e611]:
+            - link "About Dulux" [ref=e612] [cursor=pointer]:
+              - /url: /en/about-dulux
+              - generic [ref=e613]: About Dulux
+          - listitem [ref=e614]:
+            - link "Contact us" [ref=e615] [cursor=pointer]:
+              - /url: /en/contact-us
+              - generic [ref=e616]: Contact us
+          - listitem [ref=e617]:
+            - link "Find a stockist" [ref=e618] [cursor=pointer]:
+              - /url: /en/storefinder
+              - generic [ref=e619]: Find a stockist
+          - listitem [ref=e620]:
+            - link "Delivery Information" [ref=e621] [cursor=pointer]:
+              - /url: /en/delivery-information
+              - generic [ref=e622]: Delivery Information
+          - listitem [ref=e623]:
+            - link "Refunds and Cancellations" [ref=e624] [cursor=pointer]:
+              - /url: /en/refunds-and-cancellations
+              - generic [ref=e625]: Refunds and Cancellations
+          - listitem [ref=e626]:
+            - link "Terms and Conditions" [ref=e627] [cursor=pointer]:
+              - /url: /en/terms-and-conditions
+              - generic [ref=e628]: Terms and Conditions
+          - listitem [ref=e629]:
+            - link "Sitemap" [ref=e630] [cursor=pointer]:
+              - /url: /en/html-site-map
+              - generic [ref=e631]: Sitemap
+        - list [ref=e637]:
+          - listitem [ref=e638]:
+            - link "Accessibility" [ref=e639] [cursor=pointer]:
+              - /url: /en/accessibility
+              - generic [ref=e640]: Accessibility
+          - listitem [ref=e641]:
+            - link "Colour Accuracy" [ref=e642] [cursor=pointer]:
+              - /url: /en/colour-accuracy
+              - generic [ref=e643]: Colour Accuracy
+          - listitem [ref=e644]:
+            - link "Cookies Settings" [ref=e645] [cursor=pointer]:
+              - /url: javascript:void(0);
+          - listitem [ref=e646]:
+            - 'link "Terms and Conditions for #YesDulux" [ref=e647] [cursor=pointer]':
+              - /url: /en/terms-and-conditions/yes-dulux
+              - generic [ref=e648]: "Terms and Conditions for #YesDulux"
+          - listitem [ref=e649]:
+            - link "Sustainability" [ref=e650] [cursor=pointer]:
+              - /url: /en/sustainability
+              - generic [ref=e651]: Sustainability
+        - list [ref=e657]:
+          - listitem [ref=e658]:
+            - link "Cuprinol" [ref=e659] [cursor=pointer]:
+              - /url: https://www.cuprinol.co.uk/
+              - generic [ref=e660]: Cuprinol
+          - listitem [ref=e661]:
+            - link "Dulux Select Decorators" [ref=e662] [cursor=pointer]:
+              - /url: https://www.duluxselectdecorators.co.uk/
+              - generic [ref=e663]: Dulux Select Decorators
+          - listitem [ref=e664]:
+            - link "Dulux Trade" [ref=e665] [cursor=pointer]:
+              - /url: https://www.duluxtradepaintexpert.co.uk/en
+              - generic [ref=e666]: Dulux Trade
+          - listitem [ref=e667]:
+            - link "Hammerite" [ref=e668] [cursor=pointer]:
+              - /url: https://www.hammerite.co.uk/
+              - generic [ref=e669]: Hammerite
+          - listitem [ref=e670]:
+            - link "Polycell" [ref=e671] [cursor=pointer]:
+              - /url: https://www.polycell.co.uk/
+              - generic [ref=e672]: Polycell
+          - listitem [ref=e673]:
+            - link "Dulux Heritage" [ref=e674] [cursor=pointer]:
+              - /url: https://www.duluxheritage.co.uk
+              - generic [ref=e675]: Dulux Heritage
+      - generic [ref=e679]:
+        - link "Footer logo" [ref=e681] [cursor=pointer]:
+          - /url: https://www.dulux.co.uk/en
+          - img "Dulux Logo" [ref=e683]
+        - list [ref=e685]:
+          - listitem [ref=e686]:
+            - link "Manage Consent" [ref=e687] [cursor=pointer]:
+              - /url: https://privacyportal-de.onetrust.com/ui/#/preferences/multipage/login/c080253a-46e2-4fe1-a168-299d71ceda02?BU=Deco&TargetCountry=GB
+              - generic [ref=e688]: Manage Consent
+          - listitem [ref=e689]:
+            - link "Cookie Policy" [ref=e690] [cursor=pointer]:
+              - /url: /en/cookies
+              - generic [ref=e691]: Cookie Policy
+          - listitem [ref=e692]:
+            - link "Privacy Policy" [ref=e693] [cursor=pointer]:
+              - /url: /en/privacy-policy
+              - generic [ref=e694]: Privacy Policy
+          - listitem [ref=e695]:
+            - link "Legal" [ref=e696] [cursor=pointer]:
+              - /url: /en/legal
+              - generic [ref=e697]: Legal
+          - listitem [ref=e698]:
+            - link "MSA statement" [ref=e699] [cursor=pointer]:
+              - /url: /en/akzonobel-modern-slavery-statement
+              - generic [ref=e700]: MSA statement
+          - listitem [ref=e701]:
+            - link "Gender Pay Report" [ref=e702] [cursor=pointer]:
+              - /url: /en/ici-gender-pay-report
+              - generic [ref=e703]: Gender Pay Report
+          - listitem [ref=e704]:
+            - link "Other Akzonobel Sites" [ref=e705] [cursor=pointer]:
+              - /url: https://www.akzonobel.com/en
+              - generic [ref=e706]: Other Akzonobel Sites
+          - listitem [ref=e707]:
+            - link "Accessibility statement" [ref=e708] [cursor=pointer]:
+              - /url: /en/accessibility-statement
+              - generic [ref=e709]: Accessibility statement
+        - generic [ref=e711]:
+          - generic [ref=e712]: Copyright @ AkzoNobel Paints 2026
+          - generic [ref=e713]:
+            - link "Copyright Logo":
+              - /url: https://www.akzonobel.com/en
+              - generic [ref=e714] [cursor=pointer]:
+                - img
+  - contentinfo
+```
+
+# Test source
+
+```ts
+  1  | import { Page } from '@playwright/test';
+  2  | import { BasePage } from './BasePage';
+  3  | 
+  4  | const BUY_A_TESTER_TEXT = 'Buy a Tester in this colour';
+  5  | const VISUALIZER_APP_TEXT = 'Try our Visualizer App';
+  6  | 
+  7  | export class ColorSelectionPage extends BasePage {
+  8  |   constructor(page: Page) {
+  9  |     super(page);
+  10 |   }
+  11 | 
+  12 |   async chooseColour(colour: string): Promise<void> {
+  13 |     await this.page.getByRole('button', { name: colour }).click();
+  14 |   }
+  15 | 
+  16 |   async chooseSpecificShade(shade: string): Promise<void> {
+  17 |     await this.page.getByRole('button', { name: shade }).click();
+  18 |   }
+  19 | 
+  20 |   async buyATester(): Promise<void> {
+> 21 |     await this.page.getByRole('button', { name: BUY_A_TESTER_TEXT }).click();
+     |                                                                      ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  22 |   }
+  23 | 
+  24 |   async openVisualizerApp(): Promise<void> {
+  25 |     await this.page
+  26 |       .getByRole('listitem')
+  27 |       .filter({ hasText: VISUALIZER_APP_TEXT })
+  28 |       .getByRole('link')
+  29 |       .click();
+  30 |   }
+  31 | }
+  32 | 
+```

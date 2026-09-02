@@ -1,0 +1,1129 @@
+[
+  {
+    "id": "aria-allowed-role",
+    "impact": "minor",
+    "tags": [
+      "cat.aria",
+      "best-practice"
+    ],
+    "description": "Ensure role attribute has an appropriate value for the element",
+    "help": "ARIA role should be appropriate for the element",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-allowed-role?application=playwright",
+    "nodes": [
+      {
+        "any": [
+          {
+            "id": "aria-allowed-role",
+            "data": [
+              "presentation"
+            ],
+            "relatedNodes": [],
+            "impact": "minor",
+            "message": "ARIA role presentation is not allowed for given element"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "minor",
+        "html": "<img data-src=\"//images.akzonobel.c...\" alt=\"Dulux Tester Range\" class=\"image js-normal-imag...\" itemprop=\"image\" role=\"presentation\" src=\"//images.akzonobel.c...\">",
+        "target": [
+          "img[alt=\"Dulux Tester Range\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  ARIA role presentation is not allowed for given element"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-allowed-role",
+            "data": [
+              "region"
+            ],
+            "relatedNodes": [],
+            "impact": "minor",
+            "message": "ARIA role region is not allowed for given element"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "minor",
+        "html": "<button class=\"tab-button body-copy-rg js-tab-button is-active\" role=\"region\" data-tab-id=\"warm-neutrals\" aria-label=\"Warm neutrals\">\n              Warm neutrals\n            </button>",
+        "target": [
+          "button[aria-label=\"Warm neutrals\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  ARIA role region is not allowed for given element"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-allowed-role",
+            "data": [
+              "region"
+            ],
+            "relatedNodes": [],
+            "impact": "minor",
+            "message": "ARIA role region is not allowed for given element"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "minor",
+        "html": "<button class=\"tab-button body-copy-rg js-tab-button\" role=\"region\" data-tab-id=\"whites\" aria-label=\"Whites\">\n              Whites\n            </button>",
+        "target": [
+          "button[aria-label=\"Whites\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  ARIA role region is not allowed for given element"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-allowed-role",
+            "data": [
+              "region"
+            ],
+            "relatedNodes": [],
+            "impact": "minor",
+            "message": "ARIA role region is not allowed for given element"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "minor",
+        "html": "<button class=\"tab-button body-copy-rg js-tab-button\" role=\"region\" data-tab-id=\"cool-neutrals\" aria-label=\"Cool Neutrals\">\n              Cool Neutrals\n            </button>",
+        "target": [
+          "button[aria-label=\"Cool Neutrals\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  ARIA role region is not allowed for given element"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-allowed-role",
+            "data": [
+              "region"
+            ],
+            "relatedNodes": [],
+            "impact": "minor",
+            "message": "ARIA role region is not allowed for given element"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "minor",
+        "html": "<button class=\"tab-button body-copy-rg js-tab-button\" role=\"region\" data-tab-id=\"greens\" aria-label=\"Greens\">\n              Greens\n            </button>",
+        "target": [
+          "button[aria-label=\"Greens\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  ARIA role region is not allowed for given element"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-allowed-role",
+            "data": [
+              "region"
+            ],
+            "relatedNodes": [],
+            "impact": "minor",
+            "message": "ARIA role region is not allowed for given element"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "minor",
+        "html": "<button class=\"tab-button body-copy-rg js-tab-button\" role=\"region\" data-tab-id=\"popular-shades\" aria-label=\"Popular Shades\">\n              Popular Shades\n            </button>",
+        "target": [
+          "button[aria-label=\"Popular Shades\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  ARIA role region is not allowed for given element"
+      }
+    ]
+  },
+  {
+    "id": "aria-prohibited-attr",
+    "impact": "serious",
+    "tags": [
+      "cat.aria",
+      "wcag2a",
+      "wcag412",
+      "EN-301-549",
+      "EN-9.4.1.2",
+      "RGAAv4",
+      "RGAA-7.1.1"
+    ],
+    "description": "Ensure ARIA attributes are not prohibited for an element's role",
+    "help": "Elements must only use permitted ARIA attributes",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=playwright",
+    "nodes": [
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|17944763168954580\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          ".swiper-slide-active > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|17944763168954580\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          ".swiper-slide-active > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|17944763168954580\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          ".swiper-slide-active > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|17991709831815309\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17991709831815309\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|17991709831815309\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17991709831815309\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|17991709831815309\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17991709831815309\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|17890499732765178\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17890499732765178\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|17890499732765178\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17890499732765178\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|17890499732765178\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17890499732765178\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|17963108936229442\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          ".swe_has_text0-products > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|17963108936229442\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          ".swe_has_text0-products > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|17963108936229442\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          ".swe_has_text0-products > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|18340081222020825\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18340081222020825\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|18340081222020825\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18340081222020825\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|18340081222020825\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18340081222020825\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|18019460473486673\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18019460473486673\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|18019460473486673\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18019460473486673\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|18019460473486673\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18019460473486673\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|18201230614210966\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18201230614210966\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|18201230614210966\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18201230614210966\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|18201230614210966\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"18201230614210966\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Facebook (opens in a new window)\" data=\"share|facebook|post|17923409015534112\" class=\"swe_post_social_icon swe_post_icon_facebook swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17923409015534112\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(1) > .swe_post_icon_facebook.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on X (opens in a new window)\" data=\"share|twitter|post|17923409015534112\" class=\"swe_post_social_icon swe_post_icon_twitter swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17923409015534112\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(2) > .swe_post_icon_twitter.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      },
+      {
+        "any": [],
+        "all": [],
+        "none": [
+          {
+            "id": "aria-prohibited-attr",
+            "data": {
+              "role": null,
+              "nodeName": "a",
+              "messageKey": "noRoleSingular",
+              "prohibited": [
+                "aria-label"
+              ]
+            },
+            "relatedNodes": [],
+            "impact": "serious",
+            "message": "aria-label attribute cannot be used on a a with no valid role attribute."
+          }
+        ],
+        "impact": "serious",
+        "html": "<a aria-label=\"Share on Pinterest (opens in a new window)\" data=\"share|pinterest|post|17923409015534112\" class=\"swe_post_social_icon swe_post_icon_pinterest swe_post_icon swe_post_action\"></a>",
+        "target": [
+          "div[data-post-id=\"17923409015534112\"] > .swe_post_container > .swe_post_sliding_container > .swe_post_sharing_container.swe_post_social_links > .swe_post_social_link:nth-child(3) > .swe_post_icon_pinterest.swe_post_social_icon.swe_post_icon"
+        ],
+        "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a a with no valid role attribute."
+      }
+    ]
+  },
+  {
+    "id": "aria-valid-attr",
+    "impact": "critical",
+    "tags": [
+      "cat.aria",
+      "wcag2a",
+      "wcag412",
+      "EN-301-549",
+      "EN-9.4.1.2",
+      "RGAAv4",
+      "RGAA-7.1.1"
+    ],
+    "description": "Ensure attributes that begin with aria- are valid ARIA attributes",
+    "help": "ARIA attributes must conform to valid names",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-valid-attr?application=playwright",
+    "nodes": [
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch swiper-visible-switch swiper-active-switch\"></button>",
+        "target": [
+          ".swiper-active-switch"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch swiper-visible-switch\"></button>",
+        "target": [
+          ".swiper-visible-switch.swiper-pagination-switch[aria-role=\"pagination-dot\"]:nth-child(2)"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch swiper-visible-switch\"></button>",
+        "target": [
+          ".swiper-visible-switch.swiper-pagination-switch[aria-role=\"pagination-dot\"]:nth-child(3)"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch swiper-visible-switch\"></button>",
+        "target": [
+          ".swiper-visible-switch.swiper-pagination-switch[aria-role=\"pagination-dot\"]:nth-child(4)"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch\"></button>",
+        "target": [
+          ".swiper-pagination-switch[aria-role=\"pagination-dot\"][title=\"pagination-dot\"]:nth-child(5)"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch\"></button>",
+        "target": [
+          ".swiper-pagination-switch[aria-role=\"pagination-dot\"][title=\"pagination-dot\"]:nth-child(6)"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch\"></button>",
+        "target": [
+          ".swiper-pagination-switch[aria-role=\"pagination-dot\"][title=\"pagination-dot\"]:nth-child(7)"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      },
+      {
+        "any": [
+          {
+            "id": "aria-valid-attr",
+            "data": [
+              "aria-role"
+            ],
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Invalid ARIA attribute name: aria-role"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<button aria-role=\"pagination-dot\" title=\"pagination-dot\" class=\"swiper-pagination-switch\"></button>",
+        "target": [
+          ".swiper-pagination-switch[aria-role=\"pagination-dot\"][title=\"pagination-dot\"]:nth-child(8)"
+        ],
+        "failureSummary": "Fix any of the following:\n  Invalid ARIA attribute name: aria-role"
+      }
+    ]
+  },
+  {
+    "id": "color-contrast",
+    "impact": "serious",
+    "tags": [
+      "cat.color",
+      "wcag2aa",
+      "wcag143",
+      "TTv5",
+      "TT13.c",
+      "EN-301-549",
+      "EN-9.1.4.3",
+      "ACT",
+      "RGAAv4",
+      "RGAA-3.2.1"
+    ],
+    "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    "nodes": [
+      {
+        "any": [
+          {
+            "id": "color-contrast",
+            "data": {
+              "fgColor": "#ffffff",
+              "bgColor": "#2fc48d",
+              "contrastRatio": 2.23,
+              "fontSize": "12.0pt (16px)",
+              "fontWeight": "normal",
+              "messageKey": null,
+              "expectedContrastRatio": "4.5:1"
+            },
+            "relatedNodes": [
+              {
+                "html": "<button class=\"tab-button body-copy-rg js-tab-button is-active\" role=\"region\" data-tab-id=\"warm-neutrals\" aria-label=\"Warm neutrals\">\n              Warm neutrals\n            </button>",
+                "target": [
+                  "button[aria-label=\"Warm neutrals\"]"
+                ]
+              }
+            ],
+            "impact": "serious",
+            "message": "Element has insufficient color contrast of 2.23 (foreground color: #ffffff, background color: #2fc48d, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "serious",
+        "html": "<button class=\"tab-button body-copy-rg js-tab-button is-active\" role=\"region\" data-tab-id=\"warm-neutrals\" aria-label=\"Warm neutrals\">\n              Warm neutrals\n            </button>",
+        "target": [
+          "button[aria-label=\"Warm neutrals\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.23 (foreground color: #ffffff, background color: #2fc48d, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+      }
+    ]
+  },
+  {
+    "id": "heading-order",
+    "impact": "moderate",
+    "tags": [
+      "cat.semantics",
+      "best-practice"
+    ],
+    "description": "Ensure the order of headings is semantically correct",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=playwright",
+    "nodes": [
+      {
+        "any": [
+          {
+            "id": "heading-order",
+            "data": null,
+            "relatedNodes": [],
+            "impact": "moderate",
+            "message": "Heading order invalid"
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "moderate",
+        "html": "<h4 class=\"blockquote\">\n                Dulux Colours of the Year 2026: The Rhythm of Blues\n              </h4>",
+        "target": [
+          ".item.col-6.col-l-3:nth-child(2) > .m9-content-card[data-component=\"m9-content-card\"][title=\"\"] > .m9-content-card-second-child > .content-card-body > .content-title-sub > .card-content-wrapper > .blockquote"
+        ],
+        "failureSummary": "Fix any of the following:\n  Heading order invalid"
+      }
+    ]
+  },
+  {
+    "id": "image-alt",
+    "impact": "critical",
+    "tags": [
+      "cat.text-alternatives",
+      "wcag2a",
+      "wcag111",
+      "section508",
+      "section508.22.a",
+      "TTv5",
+      "TT7.a",
+      "TT7.b",
+      "EN-301-549",
+      "EN-9.1.1.1",
+      "ACT",
+      "RGAAv4",
+      "RGAA-1.1.1"
+    ],
+    "description": "Ensure <img> elements have alternative text or a role of none or presentation",
+    "help": "Images must have alternative text",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/image-alt?application=playwright",
+    "nodes": [
+      {
+        "any": [
+          {
+            "id": "has-alt",
+            "data": null,
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Element does not have an alt attribute"
+          },
+          {
+            "id": "aria-label",
+            "data": null,
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "aria-label attribute does not exist or is empty"
+          },
+          {
+            "id": "aria-labelledby",
+            "data": null,
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+          },
+          {
+            "id": "non-empty-title",
+            "data": {
+              "messageKey": "noAttr"
+            },
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Element has no title attribute"
+          },
+          {
+            "id": "presentational-role",
+            "data": null,
+            "relatedNodes": [],
+            "impact": "critical",
+            "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+          }
+        ],
+        "all": [],
+        "none": [],
+        "impact": "critical",
+        "html": "<img data-src=\"//images.akzonobel.com/akzonobel-common/akzo-nobel.png?impolicy=.auto%26imwidth%3D384\" class=\"image js-normal-image   fit-contain lazyload\" itemprop=\"image\">",
+        "target": [
+          ".fit-contain"
+        ],
+        "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+      }
+    ]
+  }
+]
