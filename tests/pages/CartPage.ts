@@ -19,6 +19,13 @@ export class CartPage extends BasePage {
     return this.page.getByRole('spinbutton', { name: QUANTITY_INPUT_LABEL });
   }
 
+  // Fills the quantity input and blurs it (Tab) so the page's own validation/rounding
+  // runs, the same way a real user tabbing away from the field would trigger it.
+  async setQuantity(value: string): Promise<void> {
+    await this.getQuantity().fill(value);
+    await this.getQuantity().press('Tab');
+  }
+
   findText(text: string): Locator {
     return this.page.getByText(text);
   }

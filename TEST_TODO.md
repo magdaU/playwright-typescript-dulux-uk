@@ -7,12 +7,6 @@ and linked from commits/PRs. Findings about the Dulux site itself (not the suite
 
 ## Open items
 
-- [ ] **Monitor `BUG-005` (tester out of stock site-wide) and re-run the purchase journey once resolved.** See
-      [BUG_REPORTS.md](BUG_REPORTS.md#bug-005--buy-a-tester-is-unavailable-site-wide-the-tester-product-cant-be-ordered-online)
-      for the full repro. `tests/specs/purchase/tester-product.spec.ts` (`@purchase @regression @smoke`) is left
-      failing deliberately — it's an honest signal, not a suite bug — but check back periodically (e.g. before
-      relying on a green `@smoke` run) and close this out once "Buy a Tester in this colour" is visible again on
-      a shade-detail page.
 - [ ] Root-cause the Firefox/WebKit divergence in the purchase journey (see
       [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cross-browser-check)) before promoting cross-browser out of
       non-blocking.
@@ -36,3 +30,13 @@ and linked from commits/PRs. Findings about the Dulux site itself (not the suite
       `HomePage.open()`), since an unconditional click could itself hang if the banner's async script hadn't
       rendered yet. Verified with 9 back-to-back runs across `@search` and `@visualizer` (desktop + mobile) after
       the fix — zero flakes, versus 5 consecutive failures beforehand.
+- [x] **`BUG-005` (tester out of stock site-wide) — monitored and resolved.** Re-ran
+      `tests/specs/purchase/tester-product.spec.ts` (desktop + mobile) while validating the cart-quantity work
+      below and it passed cleanly, twice — "Buy a Tester in this colour" is back. See
+      [BUG_REPORTS.md](BUG_REPORTS.md#bug-005--buy-a-tester-is-unavailable-site-wide-the-tester-product-cant-be-ordered-online)
+      for the resolution note.
+- [x] Negative/boundary test for the basket quantity input (`TC-CART-01`,
+      `tests/specs/cart/cart-quantity-boundaries.spec.ts`) — `0`, negative, and above-max (`1000` vs. `max="999"`)
+      values are all rejected; the above-max case additionally surfaces a generic error banner. Built against a
+      regular paint product rather than the tester, since the tester was out of stock at the time (see
+      [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cart)).
