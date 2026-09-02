@@ -13,7 +13,7 @@ A TypeScript end-to-end UI automation suite built with Playwright for selected [
 
 Demonstrates maintainable test automation using **Page Object Model, custom fixtures, API preconditions, accessibility auditing, reporting and CI/CD**.
 
-See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope and CI details, [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the scenarios behind the suite, [BUG_REPORTS.md](BUG_REPORTS.md) for real production defects found, [KEY_FINDINGS.md](KEY_FINDINGS.md) for what running the suite has shown, [TEST_TODO.md](TEST_TODO.md) for open follow-up work on the suite itself, and [`docs/qa/`](docs/qa/) for the formal ISTQB/IEEE 829-style QA documentation set.
+See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope and CI details, [TEST_SCENARIOS.md](TEST_SCENARIOS.md) for the scenarios behind the suite, [BUG_REPORTS.md](BUG_REPORTS.md) for real production defects found, [KEY_FINDINGS.md](KEY_FINDINGS.md) for what running the suite has shown, [TEST_TODO.md](TEST_TODO.md) for open follow-up work on the suite itself, [CODE_REVIEW.md](CODE_REVIEW.md) for an independent-model review of the suite's own TypeScript/Playwright code, and [`docs/qa/`](docs/qa/) for the formal ISTQB/IEEE 829-style QA documentation set.
 
 ## 🧪 Test Coverage
 
@@ -99,6 +99,7 @@ More commands (mobile/API/a11y/cross-browser/trace/lint) are in [TEST_STRATEGY.m
 - [Bug Reports](BUG_REPORTS.md)
 - [Key Findings](KEY_FINDINGS.md)
 - [Test TODO](TEST_TODO.md)
+- [Code Review](CODE_REVIEW.md)
 - [QA docs (Test Plan, UAT, Feature Guide)](docs/qa/README.md)
 
 ## 🚀 Future Improvements
