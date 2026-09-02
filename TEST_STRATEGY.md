@@ -114,8 +114,10 @@ for `@a11y`, which lives in its own untagged spec file.
   track what a user perceives (and stay stable across markup refactors on the Dulux side).
 - **Storage State for shared setup:** `tests/setup/global-setup.ts` accepts the cookie-consent banner **once**
   via Playwright's `globalSetup` + `storageState`, persisting the decision to `playwright/.auth/storage-state.json`.
-  Every test then starts already past the consent banner — no repeated `rejectAllCookies()` calls cluttering
-  each journey's GIVEN step or adding an extra click (and potential flake point) to every run.
+  Every test then starts already past the consent banner — no repeated consent-handling calls cluttering each
+  journey's GIVEN step. The banner still intermittently reappears on production regardless (see
+  [TEST_TODO.md](TEST_TODO.md)), so `BasePage.dismissConsentBannerIfPresent()` is called defensively after
+  every real page navigation in the page objects/components, rather than repeated inline in every spec.
 - **Arrange / Act / Assert:** each test is structured as GIVEN (state setup, e.g. empty basket) → WHEN
   (the journey under test) → THEN (observable outcome + evidence screenshot).
 

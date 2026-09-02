@@ -13,7 +13,6 @@ export default async function globalSetup(): Promise<void> {
 
   const homePage = new HomePage(page);
   await homePage.open();
-  await homePage.rejectAllCookies();
 
   await context.storageState({ path: STORAGE_STATE_PATH });
   await browser.close();
