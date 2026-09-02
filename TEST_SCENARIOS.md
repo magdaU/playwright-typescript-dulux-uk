@@ -21,6 +21,10 @@ implements it (where one exists). Priority follows the risk-based prioritisation
 **TC-PURCHASE-01 — Desktop: add a tester to the basket via the colour finder**
 Automated: `tests/specs/purchase/tester-product.spec.ts` · `@purchase @regression @smoke @desktop`
 
+> **Currently failing against production — not a suite bug.** The tester product is out of stock site-wide;
+> see [BUG-005](BUG_REPORTS.md#bug-005--buy-a-tester-is-unavailable-site-wide-the-tester-product-cant-be-ordered-online)
+> and [TEST_TODO.md](TEST_TODO.md) for the full finding and follow-up.
+
 - **Preconditions:** cookie consent already accepted (shared `storageState`); basket starts empty.
 - **Steps:**
   1. Open the basket and confirm it's empty ("Your basket is empty").

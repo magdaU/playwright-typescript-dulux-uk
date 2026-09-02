@@ -1,11 +1,12 @@
 # Bug Reports
 
-Defects found by this suite against the live [dulux.co.uk](https://www.dulux.co.uk) production site. These are
-real findings from an automated axe-core accessibility scan (`tests/specs/accessibility/a11y.spec.ts`,
-`npm run test:a11y`) — not fabricated examples. Since the suite doesn't own the production site, this check is
-kept as a non-blocking, on-demand audit (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope) and
-[TEST_SCENARIOS.md](TEST_SCENARIOS.md#accessibility-audit)) rather than a CI gate, so these are tracked here
-instead of failing the pipeline indefinitely.
+Defects found by this suite against the live [dulux.co.uk](https://www.dulux.co.uk) production site — real
+findings, not fabricated examples. BUG-001 through BUG-004 came from an automated axe-core accessibility scan
+(`tests/specs/accessibility/a11y.spec.ts`, `npm run test:a11y`); since the suite doesn't own the production
+site, that check is kept as a non-blocking, on-demand audit (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope)
+and [TEST_SCENARIOS.md](TEST_SCENARIOS.md#accessibility-audit)) rather than a CI gate, so findings are tracked
+here instead of failing the pipeline indefinitely. BUG-005 is a functional finding from the `@purchase` journey
+itself — see its entry for why that test is left failing rather than worked around.
 
 ## BUG-001 — `<html>` element missing a `lang` attribute (Cart page)
 
@@ -45,6 +46,36 @@ instead of failing the pipeline indefinitely.
 - **Actual result:** axe-core flagged text/background colour pairs below the WCAG AA minimum contrast ratio.
 - **Expected result:** foreground/background colour pairs meet the WCAG AA minimum contrast ratio.
 - **Rule:** [`color-contrast`](https://dequeuniversity.com/rules/axe/4.13/color-contrast)
+
+## BUG-005 — "Buy a Tester" is unavailable site-wide; the tester product can't be ordered online
+
+- **Severity:** Critical (functional, not accessibility) — blocks the suite's highest-priority journey
+  (`TC-PURCHASE-01`/`02`, see [TEST_STRATEGY §10](TEST_STRATEGY.md#10-risk-based-prioritisation))
+- **Pages:** any colour-detail page (e.g. `/en/colour-details/filters/h_Violet#tabId=item0`) and the
+  "Dulux Colour Tester" product page reached from it
+- **Steps to reproduce:**
+  1. Home → "Find a colour" → any colour family → any shade.
+  2. Observe the shade-detail panel: no "Buy a Tester in this colour" button is rendered.
+  3. Inspect the DOM anyway: the button element is present (`class="...js-add-cart"`,
+     `title="Buy a Tester in this colour"`) but not visible — it isn't a missing feature, it's conditionally
+     hidden.
+  4. Follow the alternate path instead: click "Find Products in this colour" → "Go" → this navigates to
+     `/en/products/filters/h_<family>/cccId_<colourId>`, a product listing that still lists "Dulux Colour
+     Tester" at £2.90.
+  5. Open that product card.
+- **Actual result:** the product page shows a red banner: _"At the moment it is not possible to order this
+  product online. Keep an eye on the website, we are working hard to replenish the stock."_ There's a quantity
+  stepper but no add-to-basket control.
+- **Expected result:** the tester is orderable, and the one-click "Buy a Tester in this colour" button is
+  visible on the shade-detail page (the button/handler already exists in the markup, exactly as it did when
+  this suite's purchase journey was last verified working).
+- **Confirmed site-wide, not shade-specific:** reproduced for two unrelated colour families/shades — Violet
+  ("Sugared Lilac") and Blue ("Frosted Lake") — same banner, same missing button, both times.
+- **Impact on this suite:** `tests/specs/purchase/tester-product.spec.ts` (`@purchase @regression @smoke`) now
+  fails at `ColorSelectionPage.buyATester()`, because there's genuinely nothing to buy. **Left failing
+  deliberately** — this is a correct, honest signal (the suite's job is to confirm customers can complete this
+  journey, and right now they can't), not a selector/page-object problem to "fix" around. See
+  [TEST_TODO.md](TEST_TODO.md) for the follow-up once stock is confirmed restored.
 
 ## Reporting these upstream
 
