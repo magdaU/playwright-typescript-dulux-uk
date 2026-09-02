@@ -21,10 +21,6 @@ implements it (where one exists). Priority follows the risk-based prioritisation
 **TC-PURCHASE-01 — Desktop: add a tester to the basket via the colour finder**
 Automated: `tests/specs/purchase/tester-product.spec.ts` · `@purchase @regression @smoke @desktop`
 
-> **Currently failing against production — not a suite bug.** The tester product is out of stock site-wide;
-> see [BUG-005](BUG_REPORTS.md#bug-005--buy-a-tester-is-unavailable-site-wide-the-tester-product-cant-be-ordered-online)
-> and [TEST_TODO.md](TEST_TODO.md) for the full finding and follow-up.
-
 - **Preconditions:** cookie consent already accepted (shared `storageState`); basket starts empty.
 - **Steps:**
   1. Open the basket and confirm it's empty ("Your basket is empty").
@@ -97,6 +93,32 @@ Automated: `tests/specs/visualizer/visualizer-app.spec.ts` · `@mobile`
   automating it: the mobile markup points the same link at an Adjust app-deep-link URL (opens the native app /
   app store on a real device), which in an automated browser is a silent no-op — no popup, no navigation, no
   visible message. The assertion reflects what's actually observed, not the inherited description.
+
+## Cart
+
+| ID         | Scenario                                                                  | Priority |
+| ---------- | ------------------------------------------------------------------------- | -------- |
+| TC-CART-01 | Quantity input rejects zero, negative, and above-max values in the basket | Medium   |
+
+**TC-CART-01 — Negative/boundary test: invalid basket quantities are rejected**
+Automated: `tests/specs/cart/cart-quantity-boundaries.spec.ts` · `@cart @regression @desktop`
+
+- **Preconditions:** cookie consent already accepted (shared `storageState`); basket starts empty.
+- **Steps:**
+  1. Home → "Find a colour" → colour family **Violet** → shade **Sugared Lilac** → "Find Products in this
+     colour" → open **Dulux Paint Mixing Easycare Washable & Tough Matt** → "Add to shopping cart".
+  2. Open the basket; confirm quantity is `1`.
+  3. Set the quantity input to `0`, then to `-5`, then to `1000`, tabbing away after each.
+- **Expected result:** `0` and `-5` are both silently rejected — the input reverts to the last valid quantity
+  (`1`) with no error shown. `1000` (above the input's `max="999"`) is also rejected back to `1`, but this time
+  the page shows a generic error banner: _"Sorry we encountered an error, please try again."_
+- **Why this product, not the tester:** the tester was out of stock site-wide when this was written (see
+  [BUG-005](BUG_REPORTS.md#bug-005--buy-a-tester-is-unavailable-site-wide-the-tester-product-cant-be-ordered-online)),
+  so a regular, in-stock paint product was used instead — the quantity input's validation behaviour doesn't
+  depend on which product is in the basket. `ColorSelectionPage.findProductsInThisColour()`,
+  `ProductsListingPage.openProduct()`, and `ProductPage.addToCart()` were all built and verified against
+  production (exact attributes `min="1"`/`max="999"`/`step="1"`, and each rejection's actual behaviour) before
+  writing the assertions, the same way as `TC-SEARCH-01`.
 
 ## API preconditions
 

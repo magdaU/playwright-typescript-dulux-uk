@@ -6,7 +6,8 @@ findings, not fabricated examples. BUG-001 through BUG-004 came from an automate
 site, that check is kept as a non-blocking, on-demand audit (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope)
 and [TEST_SCENARIOS.md](TEST_SCENARIOS.md#accessibility-audit)) rather than a CI gate, so findings are tracked
 here instead of failing the pipeline indefinitely. BUG-005 is a functional finding from the `@purchase` journey
-itself — see its entry for why that test is left failing rather than worked around.
+itself (since resolved on production) — see its entry for the reasoning on why it was left failing rather than
+worked around while it was live.
 
 ## BUG-001 — `<html>` element missing a `lang` attribute (Cart page)
 
@@ -48,6 +49,10 @@ itself — see its entry for why that test is left failing rather than worked ar
 - **Rule:** [`color-contrast`](https://dequeuniversity.com/rules/axe/4.13/color-contrast)
 
 ## BUG-005 — "Buy a Tester" is unavailable site-wide; the tester product can't be ordered online
+
+> **Resolved.** `tests/specs/purchase/tester-product.spec.ts` was re-run (desktop + mobile) while validating a
+> later PR and passed cleanly, twice — "Buy a Tester in this colour" is visible and working again on the
+> shade-detail page. Left below as a record of a genuine, reproduced production incident, not a live issue.
 
 - **Severity:** Critical (functional, not accessibility) — blocks the suite's highest-priority journey
   (`TC-PURCHASE-01`/`02`, see [TEST_STRATEGY §10](TEST_STRATEGY.md#10-risk-based-prioritisation))

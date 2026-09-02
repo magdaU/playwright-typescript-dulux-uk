@@ -22,6 +22,7 @@ See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope and CI details, [TEST_SCENARI
 | Tester purchase journey        | ✅             |
 | Colour search (negative case)  | ✅             |
 | Visualizer App journey         | ✅             |
+| Cart quantity boundary values  | ✅             |
 | Desktop                        | ✅             |
 | Mobile                         | ✅             |
 | API preconditions              | ✅             |
