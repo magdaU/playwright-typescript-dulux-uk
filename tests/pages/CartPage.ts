@@ -12,6 +12,7 @@ export class CartPage extends BasePage {
 
   async open(): Promise<void> {
     await this.page.goto('/en/store/cart');
+    await this.dismissConsentBannerIfPresent();
   }
 
   getQuantity(): Locator {

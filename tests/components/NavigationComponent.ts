@@ -18,6 +18,7 @@ export class NavigationComponent extends BasePage {
     // page to load before proceeding — without this, the next click resolves
     // against the outgoing page and hits a stale element.
     await this.page.waitForLoadState();
+    await this.dismissConsentBannerIfPresent();
   }
 
   async clickDropdownHamburgerMenu(): Promise<void> {
