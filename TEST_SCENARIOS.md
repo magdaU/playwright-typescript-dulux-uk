@@ -43,6 +43,28 @@ Automated: `tests/specs/purchase/tester-product.spec.ts` · `@mobile`
 - **Expected result / evidence:** identical assertions and screenshot pattern as TC-PURCHASE-01
   (`screenshots/tester-product/mobile-<timestamp>.png`).
 
+## Colour search
+
+| ID           | Scenario                                                                       | Priority |
+| ------------ | ------------------------------------------------------------------------------ | -------- |
+| TC-SEARCH-01 | Searching for a non-existent colour shows a "no results" message, not an error | Medium   |
+
+**TC-SEARCH-01 — Negative test: search with no matching results degrades gracefully**
+Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @desktop`
+
+- **Preconditions:** cookie consent already accepted (shared `storageState`).
+- **Steps:**
+  1. Open the home page.
+  2. Open the search field via the nav search icon.
+  3. Search for a deliberately non-existent term (`zzznonexistentcolourxyz123`).
+- **Expected result:** the results page (`/en/search-results?search=<query>`) shows
+  `Sorry, we couldn't find any results for '<query>'` instead of an error page, a blank page, or unrelated
+  results.
+- **Why this scenario:** `NavigationComponent.searchForColour()` existed in the codebase but wasn't exercised by
+  any spec — this closes that gap with a negative case rather than only the happy path. Confirmed against
+  production first (`/en/search-results?search=violet` returns real colour matches; a nonsense query returns the
+  no-results message) before writing the assertion, so the expected text is exact, not guessed.
+
 ## API preconditions
 
 | ID        | Scenario                                                 | Priority              |
