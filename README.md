@@ -20,6 +20,8 @@ See [TEST_STRATEGY.md](TEST_STRATEGY.md) for scope and CI details, [TEST_SCENARI
 | Area                           | Coverage       |
 | ------------------------------ | -------------- |
 | Tester purchase journey        | ✅             |
+| Colour search (negative case)  | ✅             |
+| Visualizer App journey         | ✅             |
 | Desktop                        | ✅             |
 | Mobile                         | ✅             |
 | API preconditions              | ✅             |

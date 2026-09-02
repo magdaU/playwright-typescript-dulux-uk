@@ -172,8 +172,8 @@ Coverage is prioritised by **business impact × likelihood of breakage**:
 2. **High:** cross-device navigation differences (hamburger menu vs. top nav) — a common source of regressions
    when the site ships responsive layout changes.
 3. **Medium:** the Visualizer experience (`@visualizer`) — an engagement/discovery feature, not a transactional
-   one; covers both the "works" (desktop, opens in new tab) and "gracefully degrades" (mobile, shows a support
-   message) paths.
+   one; covers both the "works" (desktop, opens in a new tab) and "doesn't crash or navigate away" (mobile, the
+   link is an app-deep-link with nothing to hand off to in an automated browser) paths.
 
 This ordering also drives what `@smoke` contains: the minimum set of tests that, if they fail, justify treating
 the site as broken and stopping further investigation until fixed.
@@ -193,8 +193,6 @@ the site as broken and stopping further investigation until fixed.
 
 ## 12. Future improvements
 
-- Port the Visualizer App journey (`@visualizer`) from the original Java/Cucumber suite — it's referenced in
-  this strategy as a known feature area but not yet implemented as Playwright specs.
 - Consider visual regression checks (e.g. `toHaveScreenshot`) for high-traffic landing/colour-selection pages.
 - Track flaky-test trends via Allure history once the suite has run enough times on `main` to build a baseline.
 - Promote `@a11y` into `@regression` once the findings in [BUG_REPORTS.md](BUG_REPORTS.md) are resolved

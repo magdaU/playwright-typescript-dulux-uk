@@ -65,6 +65,35 @@ Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @d
   production first (`/en/search-results?search=violet` returns real colour matches; a nonsense query returns the
   no-results message) before writing the assertion, so the expected text is exact, not guessed.
 
+## Visualizer App journey
+
+| ID        | Scenario                                                                          | Priority |
+| --------- | --------------------------------------------------------------------------------- | -------- |
+| TC-VIS-01 | Desktop: opening the Visualizer App from a colour page opens it in a new tab      | Medium   |
+| TC-VIS-02 | Mobile: tapping the same link doesn't crash or navigate away from the colour page | Medium   |
+
+**TC-VIS-01 — Desktop: Visualizer App opens in a new tab**
+Automated: `tests/specs/visualizer/visualizer-app.spec.ts` · `@visualizer @regression @desktop`
+
+- **Preconditions:** cookie consent already accepted (shared `storageState`).
+- **Steps:**
+  1. Open the home page → "Find a colour" → colour family **Violet** → shade **Sugared Lilac**.
+  2. Click "Try our Visualizer App" (`ColorSelectionPage.openVisualizerApp()`).
+- **Expected result:** a new tab (`page.waitForEvent('popup')`) opens, and its URL contains
+  `dulux-visualizer-app`.
+
+**TC-VIS-02 — Mobile: no crash, no stray navigation**
+Automated: `tests/specs/visualizer/visualizer-app.spec.ts` · `@mobile`
+
+- Same steps as TC-VIS-01 (via the hamburger menu, as in TC-PURCHASE-02), at Pixel 7 viewport.
+- **Expected result:** exactly one page/tab remains open in the browser context, and the page URL is unchanged
+  from before the click.
+- **Note — corrects an earlier assumption:** this scenario was originally ported from the Java/Cucumber suite's
+  description as "gracefully degrades to a support message". Verified directly against production before
+  automating it: the mobile markup points the same link at an Adjust app-deep-link URL (opens the native app /
+  app store on a real device), which in an automated browser is a silent no-op — no popup, no navigation, no
+  visible message. The assertion reflects what's actually observed, not the inherited description.
+
 ## API preconditions
 
 | ID        | Scenario                                                 | Priority              |
@@ -118,12 +147,10 @@ non-blocking until that's investigated, per [TEST_STRATEGY §12](TEST_STRATEGY.m
 Scenarios that came up during test design and are deliberately out, with the reasoning — not gaps discovered by
 accident.
 
-| ID             | Scenario                                                                           | Status            | Why                                                                                                                                                                                |
-| -------------- | ---------------------------------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| TC-VIS-01      | Desktop: opening the Visualizer App from a colour page opens it in a new tab       | Not yet automated | `ColorSelectionPage.openVisualizerApp()` already exists as a page-object method; listed as a known future addition in [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements) |
-| TC-VIS-02      | Mobile: Visualizer App gracefully degrades to a support message instead of opening | Not yet automated | Same as above — ported from the original Java/Cucumber suite's coverage, not yet reimplemented here                                                                                |
-| TC-CHECKOUT-01 | Completing checkout and receiving an order confirmation                            | Out of scope      | Suite runs against **live production** — completing checkout would create a real order/charge (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope))                                   |
-| TC-VISUAL-01   | Pixel-level visual regression on colour-selection/landing pages                    | Out of scope      | No visual-diff tooling wired in; screenshots are captured as evidence only, not compared (see [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements))                        |
+| ID             | Scenario                                                        | Status       | Why                                                                                                                                                         |
+| -------------- | --------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TC-CHECKOUT-01 | Completing checkout and receiving an order confirmation         | Out of scope | Suite runs against **live production** — completing checkout would create a real order/charge (see [TEST_STRATEGY §2](TEST_STRATEGY.md#2-scope))            |
+| TC-VISUAL-01   | Pixel-level visual regression on colour-selection/landing pages | Out of scope | No visual-diff tooling wired in; screenshots are captured as evidence only, not compared (see [TEST_STRATEGY §12](TEST_STRATEGY.md#12-future-improvements)) |
 
 ## Reference / showcase specs
 
