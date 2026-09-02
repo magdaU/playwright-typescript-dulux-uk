@@ -11,4 +11,10 @@ export class SearchResultsPage extends BasePage {
   getNoResultsMessage(query: string): Locator {
     return this.page.getByText(`${NO_RESULTS_PREFIX} '${query}'`);
   }
+
+  // Matches the "N Colours featuring <query>" heading rather than a specific shade name, so
+  // this doesn't need updating if the catalogue's match count for the query changes.
+  getColourResultsHeading(query: string): Locator {
+    return this.page.getByText(new RegExp(`\\d+ Colours featuring ${query}`, 'i'));
+  }
 }

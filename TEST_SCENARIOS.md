@@ -47,7 +47,23 @@ Automated: `tests/specs/purchase/tester-product.spec.ts` · `@mobile`
 
 | ID           | Scenario                                                                       | Priority |
 | ------------ | ------------------------------------------------------------------------------ | -------- |
+| TC-SEARCH-02 | Searching for an existing colour returns real, numbered results                | Medium   |
 | TC-SEARCH-01 | Searching for a non-existent colour shows a "no results" message, not an error | Medium   |
+
+**TC-SEARCH-02 — Happy-path test: search with matching results**
+Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @desktop`
+
+- **Preconditions:** cookie consent already accepted (shared `storageState`).
+- **Steps:**
+  1. Open the home page.
+  2. Open the search field via the nav search icon.
+  3. Search for an existing, stable term (`violet`).
+- **Expected result:** the results page shows a "`<N>` Colours featuring violet" heading (matched by pattern,
+  not a hardcoded count, since the catalogue's match count can change over time).
+- **Why this scenario:** added alongside a code review (see [CODE_REVIEW.md](CODE_REVIEW.md) #2) that pointed
+  out `TC-SEARCH-01`'s own write-up already documented manually verifying this positive case before writing the
+  negative one, but never turned it into an assertion — the negative case alone doesn't prove the feature
+  works, only that garbage input degrades gracefully.
 
 **TC-SEARCH-01 — Negative test: search with no matching results degrades gracefully**
 Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @desktop`
@@ -96,11 +112,11 @@ Automated: `tests/specs/visualizer/visualizer-app.spec.ts` · `@mobile`
 
 ## Cart
 
-| ID         | Scenario                                                                  | Priority |
-| ---------- | ------------------------------------------------------------------------- | -------- |
-| TC-CART-01 | Quantity input rejects zero, negative, and above-max values in the basket | Medium   |
+| ID         | Scenario                                                                             | Priority |
+| ---------- | ------------------------------------------------------------------------------------ | -------- |
+| TC-CART-01 | Quantity input accepts valid values and rejects zero, negative, and above-max values | Medium   |
 
-**TC-CART-01 — Negative/boundary test: invalid basket quantities are rejected**
+**TC-CART-01 — Basket quantity input: happy path + negative/boundary values**
 Automated: `tests/specs/cart/cart-quantity-boundaries.spec.ts` · `@cart @regression @desktop`
 
 - **Preconditions:** cookie consent already accepted (shared `storageState`); basket starts empty.
@@ -109,9 +125,20 @@ Automated: `tests/specs/cart/cart-quantity-boundaries.spec.ts` · `@cart @regres
      colour" → open **Dulux Paint Mixing Easycare Washable & Tough Matt** → "Add to shopping cart".
   2. Open the basket; confirm quantity is `1`.
   3. Set the quantity input to `0`, then to `-5`, then to `1000`, tabbing away after each.
-- **Expected result:** `0` and `-5` are both silently rejected — the input reverts to the last valid quantity
-  (`1`) with no error shown. `1000` (above the input's `max="999"`) is also rejected back to `1`, but this time
-  the page shows a generic error banner: _"Sorry we encountered an error, please try again."_
+  4. Set the quantity input to `5` (a valid value), tabbing away.
+- **Expected result:** `0` and `-5` are both silently rejected — the input reverts to `1` (not the last value
+  attempted, a fixed fallback) with no error shown. `1000` (above the input's `max="999"`) is also rejected back
+  to `1`, but this time the page shows a generic error banner: _"Sorry we encountered an error, please try
+  again."_ `5`, set last, is accepted: the input keeps the value and the basket updates to "5 items" — proving
+  both that valid input actually works (not just that invalid input is rejected) and that the field isn't left
+  stuck after the earlier rejections.
+- **Why the valid-quantity step, and why last:** added alongside a code review (see
+  [CODE_REVIEW.md](CODE_REVIEW.md) #1) that pointed out the original version of this test only ever proved bad
+  input bounces back — a validation bug rejecting _everything_, valid input included, would still have passed
+  every assertion. Verified live before writing it: setting `5` from a fresh `1` updates the basket to "5 items"
+  and the total correctly, and survives a reload. It runs after the rejection steps (not before) because the
+  site's actual fallback on a rejected value is a fixed `1`, not "whatever was last successfully set" — running
+  it first would have made the later `toHaveValue('1')` assertions wrong.
 - **Why this product, not the tester:** the tester was out of stock site-wide when this was written (see
   [BUG-005](BUG_REPORTS.md#bug-005--buy-a-tester-is-unavailable-site-wide-the-tester-product-cant-be-ordered-online)),
   so a regular, in-stock paint product was used instead — the quantity input's validation behaviour doesn't
