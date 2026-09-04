@@ -1,1 +1,1 @@
-{"total":0,"items":[]}
+{"total":2,"items":[{"uid":"32448e5eece4eaf691251e1f6cdd2f42","name":"Accessibility findings (known, non-blocking)","statistic":{"failed":2,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":2}},{"uid":"599864de0c7ee0619e41e251816331e0","name":"Test / locator defects","statistic":{"failed":0,"broken":2,"skipped":0,"passed":0,"unknown":0,"total":2}}]}
