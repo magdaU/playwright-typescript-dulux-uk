@@ -15,14 +15,14 @@ TypeScript-based UI end-to-end automation suite for real Dulux UK customer journ
 
 ## 🧰 Tech Stack
 
-| Tool | Purpose |
-|---|---|
-| TypeScript | Language |
-| Playwright Test | Browser automation & test runner (Chromium, Firefox, WebKit) |
-| ESLint / Prettier | Linting & formatting |
-| Allure | Test reporting |
-| Docker | Containerised, reproducible test runs |
-| GitHub Actions | CI/CD pipeline, GitHub Pages |
+| Tool              | Purpose                                                      |
+| ----------------- | ------------------------------------------------------------ |
+| TypeScript        | Language                                                     |
+| Playwright Test   | Browser automation & test runner (Chromium, Firefox, WebKit) |
+| ESLint / Prettier | Linting & formatting                                         |
+| Allure            | Test reporting                                               |
+| Docker            | Containerised, reproducible test runs                        |
+| GitHub Actions    | CI/CD pipeline, GitHub Pages                                 |
 
 ---
 
@@ -85,11 +85,11 @@ More commands (mobile/API/a11y/cross-browser/trace/lint) are in [Test Strategy](
 
 ## 🚀 Future Improvements
 
-* Full cross-browser suite once Firefox/WebKit behavioural differences are root-caused
-* Visual regression testing
-* Parallel sharding in CI
-* Improved test-data management
-* AI-assisted test analysis
+- Full cross-browser suite once Firefox/WebKit behavioural differences are root-caused
+- Visual regression testing
+- Parallel sharding in CI
+- Improved test-data management
+- AI-assisted test analysis
 
 ---
 
