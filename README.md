@@ -3,7 +3,7 @@
 ### UI end-to-end test automation for [Dulux UK](https://www.dulux.co.uk) — TypeScript · Playwright · Allure · CI/CD
 
 [![E2E Tests](https://github.com/magdaU/playwright-typescript-dulux-uk/actions/workflows/e2e-tests.yml/badge.svg)](https://github.com/magdaU/playwright-typescript-dulux-uk/actions/workflows/e2e-tests.yml)
-[![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-orange?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
+[![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-brightgreen?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
 
 ---
 
