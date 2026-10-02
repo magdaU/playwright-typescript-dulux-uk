@@ -11,6 +11,12 @@
 
 TypeScript-based UI end-to-end automation suite for real Dulux UK customer journeys (buy a colour tester, launch the Visualizer app), built with a Page Object Model architecture on Playwright Test.
 
+## 📊 Test Results
+
+Click the screenshot to open the live Allure report (published from CI on every run).
+
+[![Allure Report](docs/img/allure-report.png)](https://magdau.github.io/playwright-typescript-dulux-uk/)
+
 ---
 
 ## 🧰 Tech Stack
