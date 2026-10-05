@@ -118,6 +118,8 @@ for `@a11y`, which lives in its own untagged spec file.
   journey's GIVEN step. The banner still intermittently reappears on production regardless (see
   [TEST_TODO.md](TEST_TODO.md)), so `BasePage.dismissConsentBannerIfPresent()` is called defensively after
   every real page navigation in the page objects/components, rather than repeated inline in every spec.
+  The mid-test check waits only 1.5s (it normally finds nothing, and every call without a banner pays the
+  full wait); `global-setup.ts` keeps a 5s wait because its fresh context is guaranteed to show the banner.
 - **Arrange / Act / Assert:** each test is structured as GIVEN (state setup, e.g. empty basket) → WHEN
   (the journey under test) → THEN (observable outcome + evidence screenshot).
 

@@ -45,10 +45,11 @@ Automated: `tests/specs/purchase/tester-product.spec.ts` · `@mobile`
 
 ## Colour search
 
-| ID           | Scenario                                                                       | Priority |
-| ------------ | ------------------------------------------------------------------------------ | -------- |
-| TC-SEARCH-02 | Searching for an existing colour returns real, numbered results                | Medium   |
-| TC-SEARCH-01 | Searching for a non-existent colour shows a "no results" message, not an error | Medium   |
+| ID           | Scenario                                                                        | Priority |
+| ------------ | ------------------------------------------------------------------------------- | -------- |
+| TC-SEARCH-02 | Searching for an existing colour returns real, numbered results                 | Medium   |
+| TC-SEARCH-01 | Searching for a non-existent colour shows a "no results" message, not an error  | Medium   |
+| TC-SEARCH-03 | Mobile: searching for an existing colour via the hamburger menu returns results | Medium   |
 
 **TC-SEARCH-02 — Happy-path test: search with matching results**
 Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @desktop`
@@ -60,7 +61,7 @@ Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @d
   3. Search for an existing, stable term (`violet`).
 - **Expected result:** the results page shows a "`<N>` Colours featuring violet" heading (matched by pattern,
   not a hardcoded count, since the catalogue's match count can change over time).
-- **Why this scenario:** added alongside a code review (see [CODE_REVIEW.md](CODE_REVIEW.md) #2) that pointed
+- **Why this scenario:** added alongside a code review that pointed
   out `TC-SEARCH-01`'s own write-up already documented manually verifying this positive case before writing the
   negative one, but never turned it into an assertion — the negative case alone doesn't prove the feature
   works, only that garbage input degrades gracefully.
@@ -80,6 +81,18 @@ Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @d
   any spec — this closes that gap with a negative case rather than only the happy path. Confirmed against
   production first (`/en/search-results?search=violet` returns real colour matches; a nonsense query returns the
   no-results message) before writing the assertion, so the expected text is exact, not guessed.
+
+**TC-SEARCH-03 — Mobile: search with matching results via the hamburger menu**
+Automated: `tests/specs/search/colour-search.spec.ts` · `@search @regression @mobile`
+
+- **Preconditions:** cookie consent already accepted (shared `storageState`); Pixel 7 viewport.
+- **Steps:**
+  1. Open the home page.
+  2. Open the hamburger menu, then the search field.
+  3. Search for an existing, stable term (`violet`).
+- **Expected result:** same as TC-SEARCH-02 — the results page shows a "`<N>` Colours featuring violet" heading.
+- **Why this scenario:** on mobile the search control sits behind the hamburger menu, a different navigation path
+  from desktop; purchase and Visualizer already had a `@mobile` variant, search did not.
 
 ## Visualizer App journey
 
@@ -132,8 +145,7 @@ Automated: `tests/specs/cart/cart-quantity-boundaries.spec.ts` · `@cart @regres
   again."_ `5`, set last, is accepted: the input keeps the value and the basket updates to "5 items" — proving
   both that valid input actually works (not just that invalid input is rejected) and that the field isn't left
   stuck after the earlier rejections.
-- **Why the valid-quantity step, and why last:** added alongside a code review (see
-  [CODE_REVIEW.md](CODE_REVIEW.md) #1) that pointed out the original version of this test only ever proved bad
+- **Why the valid-quantity step, and why last:** added alongside a code review that pointed out the original version of this test only ever proved bad
   input bounces back — a validation bug rejecting _everything_, valid input included, would still have passed
   every assertion. Verified live before writing it: setting `5` from a fresh `1` updates the basket to "5 items"
   and the total correctly, and survives a reload. It runs after the rejection steps (not before) because the
