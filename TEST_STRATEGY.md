@@ -118,7 +118,7 @@ for `@a11y`, which lives in its own untagged spec file.
   journey's GIVEN step. The banner still intermittently reappears on production regardless (see
   [TEST_TODO.md](TEST_TODO.md)), so `BasePage.dismissConsentBannerIfPresent()` is called defensively after
   every real page navigation in the page objects/components, rather than repeated inline in every spec.
-- **Arrange / Act / Assert:** each test is structured as GIVEN (state setup, e.g. empty basket) → WHEN
+- **Arrange / Act / Assert:** each test is structured as GIVEN (state setup) → WHEN
   (the journey under test) → THEN (observable outcome + evidence screenshot).
 
 ## 7. Test data
@@ -127,8 +127,7 @@ for `@a11y`, which lives in its own untagged spec file.
   treated as **stable reference data** — chosen because it represents an evergreen part of the Dulux colour
   range rather than a seasonal/promotional item likely to disappear.
 - No user accounts, payment details or persisted state are required; each test starts from a clean
-  `BrowserContext` (no shared cookies/storage between tests) and explicitly drives the basket to a known
-  empty state before asserting on it.
+  `BrowserContext` (no shared cookies/storage between tests), which also means its own empty basket.
 - Because this runs against production, tests **do not complete checkout** — they assert on basket state, not
   on order confirmation, to avoid creating real orders.
 
@@ -189,7 +188,7 @@ the site as broken and stopping further investigation until fixed.
   than a dropdown — a subtlety captured in a code comment so it isn't "fixed" away by mistake).
 - **Isolation:** every test gets its own `BrowserContext`/`page` via fixtures — no cross-test state leakage.
   Storage state is the one deliberate exception: cookie consent is shared via `playwright/.auth/storage-state.json`
-  because it's identical for every journey, while basket/session state is still driven fresh per test.
+  because it's identical for every journey, while basket/session state is per-context and starts empty in every test.
 - **CI retries + trace/video on failure** turn intermittent production noise into actionable evidence rather
   than red herrings or silent flakiness.
 

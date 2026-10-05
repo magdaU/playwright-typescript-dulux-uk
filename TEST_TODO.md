@@ -70,3 +70,4 @@ and linked from commits/PRs. Findings about the Dulux site itself (not the suite
 - [x] **[CODE_REVIEW.md #2](CODE_REVIEW.md#2-colour-search-has-no-positivehappy-path-case)** — added `TC-SEARCH-02`,
       a positive search case asserting a real, numbered results heading (matched by pattern, not a hardcoded
       count).
+- [x] **Basket cleanup removed.** Re-verified that each test context has its own basket (see [KEY_FINDINGS.md](KEY_FINDINGS.md) #2), so the "empty the basket" GIVEN block and `CartPage.emptyBasket()` were deleted from the specs.
