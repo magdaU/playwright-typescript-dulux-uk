@@ -127,6 +127,9 @@ Automated: `tests/specs/visualizer/visualizer-app.spec.ts` · `@mobile`
 | ID         | Scenario                                                                             | Priority |
 | ---------- | ------------------------------------------------------------------------------------ | -------- |
 | TC-CART-01 | Quantity input accepts valid values and rejects zero, negative, and above-max values | Medium   |
+| TC-CART-02 | Basket totals add up across two different products                                   | High     |
+| TC-CART-03 | Increasing one product's quantity updates its line price and the totals              | High     |
+| TC-CART-04 | Removing one product leaves the other and recalculates the subtotal                  | High     |
 
 **TC-CART-01 — Basket quantity input: happy path + negative/boundary values**
 Automated: `tests/specs/cart/cart-quantity-boundaries.spec.ts` · `@cart @regression @desktop`
@@ -157,6 +160,23 @@ Automated: `tests/specs/cart/cart-quantity-boundaries.spec.ts` · `@cart @regres
   `ProductsListingPage.openProduct()`, and `ProductPage.addToCart()` were all built and verified against
   production (exact attributes `min="1"`/`max="999"`/`step="1"`, and each rejection's actual behaviour) before
   writing the assertions, the same way as `TC-SEARCH-01`.
+
+**TC-CART-02 / 03 / 04 — Basket arithmetic with multiple line items**
+Automated: `tests/specs/cart/cart-multiple-items.spec.ts` · `@cart @regression @desktop`
+
+- **Preconditions:** cookie consent already accepted (shared `storageState`); the `basketWithTwoProducts`
+  fixture has added a Dulux Colour Tester (via "Buy a Tester") and a Dulux Paint Mixing Easycare Washable &
+  Tough Matt, both in Sugared Lilac, and opened the basket.
+- **TC-CART-02:** both lines are listed, the header says "2 items", the subtotal equals the sum of the two line
+  prices, and the order total equals subtotal plus the estimated delivery cost.
+- **TC-CART-03:** clicking "Increase quantity" on the paint sets its quantity to 2, its line price to twice the
+  unit price, the subtotal to tester price + 2 × paint price, leaves the tester at 1, and the header says
+  "3 items".
+- **TC-CART-04:** removing the tester hides its line, keeps the paint, and sets the subtotal to the paint's
+  line price.
+- **Why these assertions:** amounts are read from the page and compared by arithmetic (in integer pence), not
+  against hardcoded prices — prices on production change, the invariants don't. TC-CART-01 only proved the
+  quantity input's validation; a pricing or totals bug would have passed it.
 
 ## API preconditions
 

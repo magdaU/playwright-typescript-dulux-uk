@@ -71,3 +71,4 @@ and linked from commits/PRs. Findings about the Dulux site itself (not the suite
       a positive search case asserting a real, numbered results heading (matched by pattern, not a hardcoded
       count).
 - [x] **Basket cleanup removed.** Re-verified that each test context has its own basket (see [KEY_FINDINGS.md](KEY_FINDINGS.md) #2), so the "empty the basket" GIVEN block and `CartPage.emptyBasket()` were deleted from the specs.
+- [x] **Basket arithmetic with multiple line items** — `TC-CART-02`/`03`/`04` (`tests/specs/cart/cart-multiple-items.spec.ts`): totals across two products, quantity increment, and item removal.
