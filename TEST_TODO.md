@@ -12,33 +12,33 @@ and linked from commits/PRs. Findings about the Dulux site itself (not the suite
       non-blocking.
 - [ ] Promote `@a11y` into `@regression` once the violations in [BUG_REPORTS.md](BUG_REPORTS.md) are fixed
       upstream.
-- [ ] **[CODE_REVIEW.md #6](CODE_REVIEW.md#6-cartpageemptybasket-has-no-wait-between-clicks)** —
-      `CartPage.emptyBasket()` has no wait between "Remove" clicks; mirror the `waitForResponse` pattern
-      `ProductPage.addToCart()` already uses, since this is the same class of race the team already debugged
-      once (basket isolation, [KEY_FINDINGS.md](KEY_FINDINGS.md) #2).
-- [ ] **[CODE_REVIEW.md #3](CODE_REVIEW.md#3-trivial-constructor-boilerplate-defeats-the-point-of-basepage-being-abstract)**
+- [ ] **Code review #3**
       — make `BasePage`'s constructor `public` so its 8 subclasses can drop their identical do-nothing
       constructors.
-- [ ] **[CODE_REVIEW.md #4](CODE_REVIEW.md#4-duplicated-given-block-and-test-data-across-specs)** — extract
+- [ ] **Code review #4** — extract
       the repeated "empty the basket" GIVEN block and the `colourFamily`/`shade` test-data consts duplicated
       across specs.
-- [ ] **[CODE_REVIEW.md #5](CODE_REVIEW.md#5-navigationcomponentalertcomponent-arent-structurally-distinct-from-page-objects)**
+- [ ] **Code review #5**
       — introduce a `BaseComponent` scoped to a root `Locator` (not the whole `Page`) for
       `NavigationComponent`/`AlertComponent`, and scope `findProductsInThisColour()`'s "Go" link the same way
       `openVisualizerApp()` already scopes its link, to avoid a future strict-mode violation.
-- [ ] **[CODE_REVIEW.md #7](CODE_REVIEW.md#7-eslint-isnt-running-type-aware-rules)** — wire `parserOptions.project`
+- [ ] **Code review #7** — wire `parserOptions.project`
       and switch ESLint to `recommendedTypeChecked` for `@typescript-eslint/no-floating-promises`.
-- [ ] **[CODE_REVIEW.md #8](CODE_REVIEW.md#8-mobile-variant-missing-for-colour-search)** — add a `@mobile`
-      variant of the colour-search spec (hamburger menu path), matching purchase/visualizer coverage.
-- [ ] **[CODE_REVIEW.md #9](CODE_REVIEW.md#9-no-basket-with-multiple-items--quantity-increment-reflects-in-total-scenario)**
+- [ ] **Code review #9**
       — a scenario exercising basket arithmetic with multiple line items, not just single-item quantity
       validation.
-- [ ] **[CODE_REVIEW.md #10](CODE_REVIEW.md#10-minor-inconsistent-locator-getter-naming-in-cartpage)** —
-      normalise `CartPage`'s locator getters to a consistent `get*` prefix (bundle with item 6 above, same
-      file).
+- [ ] **Code review #10** —
+      normalise `CartPage`'s locator getters to a consistent `get*` prefix (bundle with the `CartPage.emptyBasket()` item under Done, same file).
 
 ## Done
 
+- [x] **Code review #6** — `CartPage.emptyBasket()` now waits for the number of "Remove" buttons to drop after
+      each click before the next one, instead of clicking in a tight loop.
+- [x] **Code review #8** — added a `@mobile` variant of the colour-search spec (`TC-SEARCH-03`, hamburger menu
+      path), matching purchase/visualizer coverage.
+- [x] **Purchase journey timing out at 30s.** Profiling showed ~15s of it was the consent-banner recovery wait
+      (5s per navigation) running even when the banner never appeared. Recovery wait is now 1.5s (global-setup
+      keeps 5s for its fresh context) and the purchase describe has a 60s timeout.
 - [x] Negative test for colour search with no matching results (`TC-SEARCH-01`,
       `tests/specs/search/colour-search.spec.ts`).
 - [x] Visualizer App journey (`TC-VIS-01`/`TC-VIS-02`, `tests/specs/visualizer/visualizer-app.spec.ts`) —
@@ -64,9 +64,9 @@ and linked from commits/PRs. Findings about the Dulux site itself (not the suite
       values are all rejected; the above-max case additionally surfaces a generic error banner. Built against a
       regular paint product rather than the tester, since the tester was out of stock at the time (see
       [TEST_SCENARIOS.md](TEST_SCENARIOS.md#cart)).
-- [x] **[CODE_REVIEW.md #1](CODE_REVIEW.md#1-missing-happy-path-assertion-in-the-cart-quantity-spec)** — added a
+- [x] **Code review #1** — added a
       valid-quantity (`5`) step to `TC-CART-01`, run after the rejection steps since the site's actual fallback
       on a rejected value turned out to be a fixed `1`, not "last value attempted" as originally assumed.
-- [x] **[CODE_REVIEW.md #2](CODE_REVIEW.md#2-colour-search-has-no-positivehappy-path-case)** — added `TC-SEARCH-02`,
+- [x] **Code review #2** — added `TC-SEARCH-02`,
       a positive search case asserting a real, numbered results heading (matched by pattern, not a hardcoded
       count).
