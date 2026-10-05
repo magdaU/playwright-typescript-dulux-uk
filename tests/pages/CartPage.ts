@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 const QUANTITY_INPUT_LABEL = 'Quantity input';
@@ -40,10 +40,17 @@ export class CartPage extends BasePage {
   // guaranteed empty just because *this* test hasn't added anything yet.
   // Clear out any leftover item from a previous run before relying on it
   // being empty.
+  //
+  // Each click kicks off an async request and re-renders the list, so wait for the
+  // number of "Remove" buttons to drop before the next click — otherwise the next
+  // click can hit a stale/detached button (same race class as ProductPage.addToCart()).
   async emptyBasket(): Promise<void> {
     const removeButton = this.page.getByRole('button', { name: REMOVE_ITEM_BUTTON });
-    while (await removeButton.count()) {
+    let remaining = await removeButton.count();
+    while (remaining > 0) {
       await removeButton.first().click();
+      remaining -= 1;
+      await expect(removeButton).toHaveCount(remaining);
     }
   }
 }
