@@ -23,14 +23,13 @@ Automated: `tests/specs/purchase/tester-product.spec.ts` · `@purchase @regressi
 
 - **Preconditions:** cookie consent already accepted (shared `storageState`); basket starts empty.
 - **Steps:**
-  1. Open the basket and confirm it's empty ("Your basket is empty").
-  2. Open the home page.
-  3. Open the "Find a colour" nav dropdown, then "Find a colour".
-  4. Choose the colour family **Violet**.
-  5. Choose the shade **Sugared Lilac**.
-  6. Click "Buy a Tester in this colour".
-  7. Dismiss the resulting alert/notification.
-  8. Open the shopping cart.
+  1. Open the home page.
+  2. Open the "Find a colour" nav dropdown, then "Find a colour".
+  3. Choose the colour family **Violet**.
+  4. Choose the shade **Sugared Lilac**.
+  5. Click "Buy a Tester in this colour".
+  6. Dismiss the resulting alert/notification.
+  7. Open the shopping cart.
 - **Expected result:** basket quantity input is visible and equals `1`; basket lists "Dulux Colour Tester" and
   "Sugared Lilac".
 - **Evidence:** basket screenshot attached to the test in the HTML/Allure report (`basket-desktop`).
@@ -38,7 +37,7 @@ Automated: `tests/specs/purchase/tester-product.spec.ts` · `@purchase @regressi
 **TC-PURCHASE-02 — Mobile: add a tester to the basket via the hamburger menu**
 Automated: `tests/specs/purchase/tester-product.spec.ts` · `@mobile`
 
-- Same as TC-PURCHASE-01, except step 3 first opens the hamburger menu (mobile nav is collapsed behind it)
+- Same as TC-PURCHASE-01, except step 2 first opens the hamburger menu (mobile nav is collapsed behind it)
   before reaching "Find a colour". Runs at Pixel 7 viewport instead of 1920×1080.
 - **Expected result / evidence:** identical assertions and screenshot pattern as TC-PURCHASE-01
   (attached as `basket-mobile`).

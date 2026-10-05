@@ -39,11 +39,9 @@ confirm it lands in the basket. Covers both desktop (top nav) and mobile (hambur
 - **Manual check:** same steps as the automated case — worth doing manually after any Dulux-side navigation or
   colour-picker redesign, since that's exactly the kind of change that breaks the role/text-based locators in
   `ColorSelectionPage`/`NavigationComponent`.
-- **Known caveat — shared basket state:** the basket is a **real, shared server-side cart** on production,
-  keyed to a persistent anonymous visitor ID baked into `storageState.json` (see
-  [KEY_FINDINGS.md #2](../../KEY_FINDINGS.md)). `CartPage.emptyBasket()` clears leftover items before each
-  purchase test relies on an empty basket — if you're writing a new test that touches the basket, call it too,
-  don't assume a fresh basket by default.
+- **Basket state:** the basket is a real server-side cart on production, but every test runs in its own
+  browser context and starts with its own empty basket — no cleanup step is needed (see
+  [KEY_FINDINGS.md #2](../../KEY_FINDINGS.md) for how this was re-verified). Tests still never complete checkout.
 - **Test data:** colour family "Violet" / shade "Sugared Lilac" are treated as stable catalogue reference data
   (see [TEST_STRATEGY §7](../../TEST_STRATEGY.md#7-test-data)) — not seasonal, safe to keep hardcoding in new
   scenarios in this area.
