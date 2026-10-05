@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+import { COLOUR_FAMILY, PAINT_NAME, SHADE, TESTER_NAME } from './test-data';
 import { HomePage } from './pages/HomePage';
 import { ColorSelectionPage } from './pages/ColorSelectionPage';
 import { CartPage } from './pages/CartPage';
@@ -17,6 +18,7 @@ type Pages = {
   productPage: ProductPage;
   navigation: NavigationComponent;
   alert: AlertComponent;
+  basketWithTwoProducts: { testerName: string; paintName: string };
 };
 
 export const test = base.extend<Pages>({
@@ -43,6 +45,27 @@ export const test = base.extend<Pages>({
   },
   alert: async ({ page }, use) => {
     await use(new AlertComponent(page));
+  },
+
+  // GIVEN for basket-arithmetic specs: a colour tester (one-click shortcut) plus a regular paint,
+  // both in the same shade, then the basket page open. Each test's context starts with an empty
+  // basket, so no cleanup is needed first.
+  basketWithTwoProducts: async (
+    { homePage, navigation, colorSelectionPage, productsListingPage, productPage, alert, cartPage },
+    use,
+  ) => {
+    await homePage.open();
+    await navigation.clickDropdownFindColour();
+    await navigation.clickFindColour();
+    await colorSelectionPage.chooseColour(COLOUR_FAMILY);
+    await colorSelectionPage.chooseSpecificShade(SHADE);
+    await colorSelectionPage.buyATester();
+    await alert.closeAlert();
+    await colorSelectionPage.findProductsInThisColour();
+    await productsListingPage.openProduct(PAINT_NAME);
+    await productPage.addToCart();
+    await cartPage.open();
+    await use({ testerName: TESTER_NAME, paintName: PAINT_NAME });
   },
 });
 
