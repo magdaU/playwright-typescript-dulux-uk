@@ -83,7 +83,6 @@ More commands (mobile/API/a11y/cross-browser/trace/lint) are in [Test Strategy](
 - [Test Scenarios](TEST_SCENARIOS.md) — the scenarios behind the suite.
 - [Bug Reports](BUG_REPORTS.md) — real production defects found.
 - [Key Findings](KEY_FINDINGS.md) — what running the suite has shown.
-- [Lessons Learned](LESSONS_LEARNED.md) — real issues this suite caught, root-caused and fixed.
 - [Test TODO](TEST_TODO.md) — open follow-up work on the suite itself.
 - [QA docs (Test Plan, UAT, Feature Guide)](docs/qa/README.md) — the formal ISTQB/IEEE 829-style QA documentation set.
 
