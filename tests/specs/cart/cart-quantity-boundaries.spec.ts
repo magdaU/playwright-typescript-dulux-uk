@@ -9,7 +9,6 @@ test.describe(
     const productName = 'Dulux Paint Mixing Easycare Washable & Tough Matt';
 
     test('quantity input accepts valid values and rejects zero, negative and above-max values', async ({
-      page,
       homePage,
       navigation,
       colorSelectionPage,
@@ -25,10 +24,6 @@ test.describe(
       // Uses a regular paint product rather than the colour tester: the tester was unorderable
       // site-wide when this was written (see BUG-005 in BUG_REPORTS.md, since resolved), but the
       // quantity input's validation behaviour doesn't depend on which product is in the basket.
-      await cartPage.open();
-      await cartPage.emptyBasket();
-      await expect(cartPage.getBasketEmptyText()).toBeVisible();
-
       await homePage.open();
       await navigation.clickDropdownFindColour();
       await navigation.clickFindColour();
@@ -55,9 +50,7 @@ test.describe(
       await test.step('a quantity above the input max (999) is rejected and surfaces an error', async () => {
         await cartPage.setQuantity('1000');
         await expect(cartPage.getQuantity()).toHaveValue('1');
-        await expect(
-          page.getByText('Sorry we encountered an error, please try again.'),
-        ).toBeVisible();
+        await expect(cartPage.getGenericErrorMessage()).toBeVisible();
       });
 
       await test.step('a valid quantity is still accepted after those rejections and updates the basket total', async () => {
@@ -67,7 +60,7 @@ test.describe(
         // otherwise a validation bug that rejected everything (including valid input) would
         // still pass every assertion above. Also proves the input isn't left stuck/broken by
         // the invalid attempts that came before it.
-        await expect(cartPage.findText('5 items')).toBeVisible();
+        await expect(cartPage.getItemsCountText(5)).toBeVisible();
       });
     });
   },
