@@ -11,7 +11,7 @@ test.describe('Purchase a colour tester', { tag: ['@purchase', '@regression'] },
   test(
     'desktop customer adds a tester to the basket via the colour finder',
     { tag: ['@smoke', '@desktop'] },
-    async ({ page, homePage, navigation, colorSelectionPage, cartPage, alert }) => {
+    async ({ page, homePage, navigation, colorSelectionPage, cartPage, alert }, testInfo) => {
       // GIVEN — cookie consent is already handled via storageState (see tests/setup/global-setup.ts).
       // The basket itself is a real, shared server-side cart (see CartPage.emptyBasket), so it isn't
       // guaranteed empty just from a fresh run — clear it before relying on that precondition.
@@ -34,14 +34,17 @@ test.describe('Purchase a colour tester', { tag: ['@purchase', '@regression'] },
       await expect(cartPage.getQuantity()).toHaveValue('1');
       await expect(cartPage.findText('Dulux Colour Tester')).toBeVisible();
       await expect(cartPage.findText(shade)).toBeVisible();
-      await page.screenshot({ path: `screenshots/tester-product/desktop-${Date.now()}.png` });
+      await testInfo.attach('basket-desktop', {
+        body: await page.screenshot(),
+        contentType: 'image/png',
+      });
     },
   );
 
   test(
     'mobile customer adds a tester to the basket via the hamburger menu',
     { tag: ['@mobile'] },
-    async ({ page, homePage, navigation, colorSelectionPage, cartPage, alert }) => {
+    async ({ page, homePage, navigation, colorSelectionPage, cartPage, alert }, testInfo) => {
       // GIVEN — cookie consent is already handled via storageState (see tests/setup/global-setup.ts).
       // The basket itself is a real, shared server-side cart (see CartPage.emptyBasket), so it isn't
       // guaranteed empty just from a fresh run — clear it before relying on that precondition.
@@ -65,7 +68,10 @@ test.describe('Purchase a colour tester', { tag: ['@purchase', '@regression'] },
       await expect(cartPage.getQuantity()).toHaveValue('1');
       await expect(cartPage.findText('Dulux Colour Tester')).toBeVisible();
       await expect(cartPage.findText(shade)).toBeVisible();
-      await page.screenshot({ path: `screenshots/tester-product/mobile-${Date.now()}.png` });
+      await testInfo.attach('basket-mobile', {
+        body: await page.screenshot(),
+        contentType: 'image/png',
+      });
     },
   );
 });

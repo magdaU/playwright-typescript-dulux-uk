@@ -12,6 +12,7 @@ RUN npm ci
 
 COPY . .
 
-# Default to the full regression suite; override at `docker run` time, e.g.
+# Default to the same blocking regression run as CI (`npm test`); override at `docker run`
+# time, e.g.
 #   docker run --rm dulux-e2e npx playwright test --project=api
-CMD ["npx", "playwright", "test"]
+CMD ["npm", "test"]

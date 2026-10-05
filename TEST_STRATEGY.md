@@ -146,8 +146,8 @@ test:trace` (`--trace on`) forces a full trace for every test — see `tests/spe
   via `allure-playwright` + `allure-commandline`. Published automatically to **GitHub Pages** on every push to
   `main`:
   [![View Allure Report](https://img.shields.io/badge/Allure%20Report-View%20latest%20results-brightgreen?logo=qameta&logoColor=white)](https://magdau.github.io/playwright-typescript-dulux-uk/)
-- **Manual evidence** — each journey captures a timestamped screenshot of its final state (e.g. the basket) to
-  `screenshots/`, useful for quick visual sanity checks alongside the automated assertions.
+- **Manual evidence** — each journey attaches a screenshot of its final state (e.g. the basket) to the
+  HTML/Allure report via `testInfo.attach()`, useful for quick visual sanity checks alongside the automated assertions.
 
 ## 9. CI/CD integration
 
