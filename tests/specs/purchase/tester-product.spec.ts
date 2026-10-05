@@ -4,6 +4,10 @@ test.describe('Purchase a colour tester', { tag: ['@purchase', '@regression'] },
   const colourFamily = 'Violet';
   const shade = 'Sugared Lilac';
 
+  // Multi-page journey against a live production site (several 5–10s page loads); the 30s
+  // default is too tight and made the test fail at whichever step happened to cross it.
+  test.setTimeout(60_000);
+
   test(
     'desktop customer adds a tester to the basket via the colour finder',
     { tag: ['@smoke', '@desktop'] },

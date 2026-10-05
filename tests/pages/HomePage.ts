@@ -8,9 +8,9 @@ export class HomePage extends BasePage {
 
   // Also serves as global-setup.ts's own consent step on a guaranteed-fresh context
   // (see BasePage.dismissConsentBannerIfPresent for why it's not a separate call there).
-  async open(): Promise<void> {
+  async open(consentWaitMs?: number): Promise<void> {
     await this.page.goto('/');
     await this.page.waitForLoadState();
-    await this.dismissConsentBannerIfPresent();
+    await this.dismissConsentBannerIfPresent(consentWaitMs);
   }
 }
